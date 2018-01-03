@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraWork : MonoBehaviour {
-	private const float START_OFFSET = -5.5f;
-	private const float END_OFFSET = 5.5f;
+	private const float START_OFFSET = -4.4f;
+	private const float END_OFFSET = 4.4f;
 
 	private GameObject player;		// プレイヤー
-	private GameObject background;	// 背景
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
-		background = GameObject.Find ("Back");
 	}
 	
 	// Update is called once per frame
