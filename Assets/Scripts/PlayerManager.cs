@@ -6,8 +6,8 @@ public class PlayerManager : MonoBehaviour {
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 
 	private const float SPEED_MAX = 100;	// 最大スピード
-	private const float SPEED_ACCELERATION = 10; // ボタン一回あたりの加速度
-	private const float SPEED_RESISTANCE = 3;	// 抵抗
+	private const float SPEED_ACCELERATION = 0.4f; // ボタン一回あたりの加速度
+	private const float SPEED_RESISTANCE = 0.03f;	// 抵抗
 
 	private float speed = 0;				// 現在のスピード
 	private int runButtonCount = 0;			// Runボタンを押した数
