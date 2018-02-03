@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour {
 	private float jumpPower = 300;			// ジャンプ力
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
+	private bool usingButtons = false;		// ボタンを利用中か
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +29,23 @@ public class PlayerManager : MonoBehaviour {
 		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
 			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
 
+		if (!usingButtons) {
+			float x = Input.GetAxisRaw ("Horizontal");
+
+			if (x == 0) {
+				moveDirection = MOVE_DIR.STOP;
+			} else {
+				if (x > 0) {
+					moveDirection = MOVE_DIR.RIGHT;
+				} else {
+					moveDirection = MOVE_DIR.LEFT;
+				}
+			}
+
+			if (Input.GetKeyDown ("space")){
+				PushJumpButton ();
+			}
+		}
 	}
 
 	// 固定更新処理
@@ -57,10 +75,12 @@ public class PlayerManager : MonoBehaviour {
 
 	public void PushLeftButton () {
 		moveDirection = MOVE_DIR.LEFT;
+		usingButtons = true;
 	}
 
 	public void PushRightButton () {
 		moveDirection = MOVE_DIR.RIGHT;
+		usingButtons = true;
 	}
 
 	public void ReleaseMoveButton () {
@@ -68,7 +88,6 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushJumpButton () {
-		Debug.Log ("canJump:" + canJump);
 		if (canJump) {
 			goJump = true;
 		}
