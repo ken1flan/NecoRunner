@@ -1190,6 +1190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd40394184c654012bf3cb7610c807b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!95 &282583792
 Animator:
   serializedVersion: 3
@@ -4457,6 +4460,10 @@ Prefab:
     - target: {fileID: 4352677355741222, guid: d36e63288a25445c5a0ca018fa69d88b, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1672877878542208, guid: d36e63288a25445c5a0ca018fa69d88b, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d36e63288a25445c5a0ca018fa69d88b, type: 2}
