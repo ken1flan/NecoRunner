@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 	public LayerMask blockLayer;	// ブロックレイヤ
+	public GameObject gameManager;	// ゲームマネージャ
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 
 	private const float MOVE_SPEED = 3;	// スピード
@@ -71,6 +72,17 @@ public class PlayerManager : MonoBehaviour {
 			rbody.AddForce (Vector2.up * jumpPower);
 			goJump = false;
 		}
+	}
+
+	void OnTriggerEnter2D (Collider2D col) {
+		if (col.gameObject.tag == "Trap") {
+			gameManager.GetComponent<GameManager> ().GameOver ();
+			DestroyPlayer ();
+		}
+		
+	}
+	void DestroyPlayer () {
+		Destroy (this.gameObject);
 	}
 
 	public void PushLeftButton () {
