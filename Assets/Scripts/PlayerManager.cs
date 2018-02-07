@@ -8,7 +8,8 @@ public class PlayerManager : MonoBehaviour {
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 
 	private const float MOVE_SPEED = 3;	// スピード
-	private float moveSpeed = 0;			// 現在のスピード
+	private float velocityX = 0;		// 現在のスピード
+	private float velocityY = 0;		// 現在のスピード
 	public enum MOVE_DIR{
 		STOP,
 		LEFT,
@@ -18,6 +19,10 @@ public class PlayerManager : MonoBehaviour {
 	private float jumpPower = 300;			// ジャンプ力
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
+	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
+	private bool canWallRightJump = false;	// 右壁ジャンプが可能か
+	private bool goWallLeftJump = false;	// 左壁ジャンプしたか否か
+	private bool canWallLeftJump = false;	// 左壁ジャンプが可能か
 	private bool usingButtons = false;		// ボタンを利用中か
 
 	// Use this for initialization
@@ -27,9 +32,23 @@ public class PlayerManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		// ジャンプ可能か
 		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
 			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
 
+		// 壁ジャンプ可能か
+		Vector3 startOffset = transform.right * 0.6f;
+		Vector3 endOffset = transform.up * 1.5f;
+		canWallRightJump = !canJump && Physics2D.Linecast (
+			transform.position + startOffset,
+			transform.position + startOffset + endOffset,
+			blockLayer);
+
+		canWallLeftJump = !canJump && Physics2D.Linecast (
+			transform.position - startOffset,
+			transform.position - startOffset + endOffset,
+			blockLayer);
+		
 		if (!usingButtons) {
 			float x = Input.GetAxisRaw ("Horizontal");
 
@@ -51,27 +70,48 @@ public class PlayerManager : MonoBehaviour {
 
 	// 固定更新処理
 	void FixedUpdate () {
-		switch (moveDirection) {
-		case MOVE_DIR.LEFT:
-			moveSpeed = -MOVE_SPEED;
-			transform.localScale = new Vector2 (-1, 1);
-			break;
-		case MOVE_DIR.RIGHT:
-			moveSpeed = MOVE_SPEED;
-			transform.localScale = new Vector2 (1, 1);
-			break;
-		default:
-			moveSpeed = 0;
-			break;
+		// 現在のスピード
+		velocityX = rbody.velocity.x;
+		velocityY = rbody.velocity.y;
+
+		// 移動処理
+		if (canJump) {
+			switch (moveDirection) {
+			case MOVE_DIR.LEFT:
+				velocityX = -MOVE_SPEED;
+				transform.localScale = new Vector2 (-1, 1);
+				break;
+			case MOVE_DIR.RIGHT:
+				velocityX = MOVE_SPEED;
+				transform.localScale = new Vector2 (1, 1);
+				break;
+			default:
+				velocityX = 0;
+				break;
+			}
 		}
-
-		rbody.velocity = new Vector2 (moveSpeed, rbody.velocity.y);
-
+			
 		// ジャンプ処理
 		if (goJump) {
+			velocityY = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goJump = false;
+		} else if (goWallRightJump) {
+			velocityY = 0;
+			rbody.AddForce (Vector2.up * jumpPower);
+			goWallRightJump = false;
+			velocityX = -MOVE_SPEED;
+			transform.localScale = new Vector2 (-1, 1);
+		} else if (goWallLeftJump) {
+			velocityY = 0;
+			rbody.AddForce (Vector2.up * jumpPower);
+			goWallLeftJump = false;
+			velocityX = MOVE_SPEED;
+			transform.localScale = new Vector2 (1, 1);
 		}
+
+		// 移動速度設定
+		rbody.velocity = new Vector2 (velocityX, velocityY);
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
@@ -102,6 +142,10 @@ public class PlayerManager : MonoBehaviour {
 	public void PushJumpButton () {
 		if (canJump) {
 			goJump = true;
+		} else if (canWallRightJump) {
+			goWallRightJump = true;
+		} else if (canWallLeftJump) {
+			goWallLeftJump = true;
 		}
 	}
 }
