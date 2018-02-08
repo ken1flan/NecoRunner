@@ -5,6 +5,8 @@ using UnityEngine;
 public class CameraWork : MonoBehaviour {
 	private const float START_X_OFFSET = 8.6f;
 	private const float END_X_OFFSET = 25.5f;
+	private const float START_Y_OFFSET = 4.0f;
+	private const float END_Y_OFFSET = 12.0f;
 
 	private GameObject player;		// プレイヤー
 
@@ -22,7 +24,18 @@ public class CameraWork : MonoBehaviour {
 			} else if (x > END_X_OFFSET) {
 				x = END_X_OFFSET;
 			}
-			transform.position = new Vector3 (x, transform.position.y, transform.position.z);
+
+			float y = player.transform.position.y;
+			if (y < START_Y_OFFSET) {
+				y = START_Y_OFFSET;
+			} else if (y > END_Y_OFFSET) {
+				y = END_Y_OFFSET;
+			}
+
+
+
+
+			transform.position = new Vector3 (x, y, transform.position.z);
 		}
 	}
 }
