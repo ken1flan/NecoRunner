@@ -4,14 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-	public GameObject textGameOver;	// ゲームオーバーテキスト
-	public GameObject buttons;		// 操作ボタン
-	public GameObject textTime;		// タイム表示
+	public GameObject textGameOver;		// ゲームオーバーテキスト
+	public GameObject textGameClear;	// ゲームクリアテキスト
+	public GameObject buttons;			// 操作ボタン
+	public GameObject textTime;			// タイム表示
 
 	private float time = 0;			// 現在の経過時間
 	public enum STATUS {
 		PLAYING,
 		GAMEOVER,
+		GAMECLEAR,
 	};
 	private STATUS status = STATUS.PLAYING;
 
@@ -36,5 +38,12 @@ public class GameManager : MonoBehaviour {
 		textGameOver.SetActive (true);
 		buttons.SetActive (false);
 		status = STATUS.GAMEOVER;
+	}
+
+	// ゲームクリア処理
+	public void GameClear () {
+		textGameClear.SetActive (true);
+		buttons.SetActive (false);
+		status = STATUS.GAMECLEAR;
 	}
 }

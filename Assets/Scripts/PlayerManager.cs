@@ -119,7 +119,12 @@ public class PlayerManager : MonoBehaviour {
 			gameManager.GetComponent<GameManager> ().GameOver ();
 			DestroyPlayer ();
 		}
-		
+
+		if (col.gameObject.tag == "Goal") {
+			gameManager.GetComponent<GameManager> ().GameClear ();
+			DestroyPlayer ();
+		}
+
 	}
 	void DestroyPlayer () {
 		Destroy (this.gameObject);
