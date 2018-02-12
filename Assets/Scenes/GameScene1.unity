@@ -4695,7 +4695,7 @@ MonoBehaviour:
   textGameClear: {fileID: 623065971}
   buttons: {fileID: 278749731}
   textTime: {fileID: 2009248508}
-  fastestTimes: []
+  textBestTime: {fileID: 544120289}
 --- !u!4 &1186704929
 Transform:
   m_ObjectHideFlags: 0
