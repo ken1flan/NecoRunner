@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraWork : MonoBehaviour {
-	private const float START_X_OFFSET = 8.6f;
+	private const float START_X_OFFSET = 6.5f;
 	private const float END_X_OFFSET = 25.5f;
 	private const float START_Y_OFFSET = 4.0f;
 	private const float END_Y_OFFSET = 12.0f;
