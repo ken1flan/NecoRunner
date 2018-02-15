@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+	public GameObject panelGameEnd;		// ゲームエンドパネル
 	public GameObject textGameOver;		// ゲームオーバーテキスト
 	public GameObject textGameClear;	// ゲームクリアテキスト
 	public GameObject buttons;			// 操作ボタン
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour {
 
 	// ゲームオーバー処理
 	public void GameOver () {
+		panelGameEnd.SetActive (true);
 		textGameOver.SetActive (true);
 		buttons.SetActive (false);
 		status = STATUS.GAMEOVER;
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour {
 
 	// ゲームクリア処理
 	public void GameClear () {
+		panelGameEnd.SetActive (true);
 		textGameClear.SetActive (true);
 		buttons.SetActive (false);
 		status = STATUS.GAMECLEAR;
@@ -68,5 +72,10 @@ public class GameManager : MonoBehaviour {
 			string newTimeString = time.ToString ("Best ###0.00 Sec");
 			textBestTime.GetComponent<Text> ().text = newTimeString;
 		}
+	}
+
+	// タイトルに戻る
+	public void BackToTitle () {
+		SceneManager.LoadScene ("TitleScene");
 	}
 }
