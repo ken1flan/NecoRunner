@@ -1345,6 +1345,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   gameManager: {fileID: 1186704927}
+  jumpSe: {fileID: 8300000, guid: 37ddad4b152384b349b2f8e872fd839d, type: 3}
 --- !u!95 &282583792
 Animator:
   serializedVersion: 3
@@ -4942,6 +4943,9 @@ MonoBehaviour:
   buttons: {fileID: 278749731}
   textTime: {fileID: 2009248508}
   textBestTime: {fileID: 544120289}
+  clearSe: {fileID: 8300000, guid: 7a5ee273e8b9346eda7e742bbd03b11e, type: 3}
+  gameOverSe: {fileID: 8300000, guid: 538cc7f4518ae49ee85ad52f13cfa060, type: 3}
+  buttonDownSe: {fileID: 8300000, guid: 8e13331cbb0514e358e261384a2b35db, type: 3}
 --- !u!4 &1186704929
 Transform:
   m_ObjectHideFlags: 0
