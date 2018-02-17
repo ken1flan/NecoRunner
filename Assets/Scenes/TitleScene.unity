@@ -491,7 +491,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "BGM: \u9B54\u738B\u9B42 / SE: \u25CB\u25CB\u25CB\u25CB / \u307B\u304B:
+  m_Text: "BGM: \u9B54\u738B\u9B42 / SE: \u52B9\u679C\u97F3\u30E9\u30DC / \u307B\u304B:
     @ken1flan"
 --- !u!222 &1325403086
 CanvasRenderer:
