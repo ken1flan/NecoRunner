@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject textTime;			// タイム表示
 	public GameObject textBestTime;		// ベストタイム
 
+	private AudioSource audioSource;	// オーディオソース
+	public AudioClip clearSe;			// クリアSE
+	public AudioClip gameOverSe;		// ゲームオーバーSE
+	public AudioClip buttonDownSe;		// ボタン押下SE
+
 	private float time = 0;			// 現在の経過時間
 	public enum STATUS {
 		PLAYING,
@@ -26,10 +31,12 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		// オーディオソースの設定
+		audioSource = this.gameObject.GetComponent<AudioSource> ();
+
 		// ベストタイム読み込み
 		var bestTime = PlayerPrefs.GetFloat (SAVE_KEY_BEST_TIME, BEST_TIME_DEFAULT);
 		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
-
 	}
 	
 	// Update is called once per frame
@@ -46,6 +53,13 @@ public class GameManager : MonoBehaviour {
 
 	// ゲームオーバー処理
 	public void GameOver () {
+		// BGMを止める
+		audioSource.Stop ();
+
+		// ゲームオーバーSEを鳴らす
+		audioSource.PlayOneShot (gameOverSe);
+
+		// ゲームオーバー画面の表示
 		panelGameEnd.SetActive (true);
 		textGameOver.SetActive (true);
 		buttons.SetActive (false);
@@ -54,9 +68,18 @@ public class GameManager : MonoBehaviour {
 
 	// ゲームクリア処理
 	public void GameClear () {
+		// BGMを止める
+		audioSource.Stop ();
+
+		// クリアSEを鳴らす
+		audioSource.PlayOneShot(clearSe);
+
+		// クリア画面表示
 		panelGameEnd.SetActive (true);
 		textGameClear.SetActive (true);
 		buttons.SetActive (false);
+
+		// ゲームのステータスをクリアに変更
 		status = STATUS.GAMECLEAR;
 
 		// ベストタイム更新
@@ -76,6 +99,16 @@ public class GameManager : MonoBehaviour {
 
 	// タイトルに戻る
 	public void BackToTitle () {
+		// ボタン押下音を鳴らす
+		audioSource.PlayOneShot(buttonDownSe);
+
+		// なり終わるのを待って、ゲームにシーン変更
+		Invoke("ChangeToTitleScene", 1.0f);
+
+	}
+
+	// タイトルシーンに切り替え
+	void ChangeToTitleScene () {
 		SceneManager.LoadScene ("TitleScene");
 	}
 }
