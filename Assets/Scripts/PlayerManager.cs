@@ -25,9 +25,15 @@ public class PlayerManager : MonoBehaviour {
 	private bool canWallLeftJump = false;	// 左壁ジャンプが可能か
 	private bool usingButtons = false;		// ボタンを利用中か
 
+	private AudioSource audioSource;		// オーディオソース
+	public AudioClip jumpSe;				// ジャンプSE
+
 	// Use this for initialization
 	void Start () {
 		rbody = GetComponent<Rigidbody2D> ();
+
+		// オーディオソースの設定
+		audioSource = gameManager.GetComponent<AudioSource> ();
 	}
 
 	// Update is called once per frame
@@ -93,16 +99,19 @@ public class PlayerManager : MonoBehaviour {
 			
 		// ジャンプ処理
 		if (goJump) {
+			audioSource.PlayOneShot (jumpSe);
 			velocityY = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goJump = false;
 		} else if (goWallRightJump) {
+			audioSource.PlayOneShot (jumpSe);
 			velocityY = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goWallRightJump = false;
 			velocityX = -MOVE_SPEED;
 			transform.localScale = new Vector2 (-1, 1);
 		} else if (goWallLeftJump) {
+			audioSource.PlayOneShot (jumpSe);
 			velocityY = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goWallLeftJump = false;

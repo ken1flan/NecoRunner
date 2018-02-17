@@ -1345,6 +1345,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   gameManager: {fileID: 1186704927}
+  jumpSe: {fileID: 8300000, guid: 37ddad4b152384b349b2f8e872fd839d, type: 3}
 --- !u!95 &282583792
 Animator:
   serializedVersion: 3
