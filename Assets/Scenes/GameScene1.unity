@@ -163,47 +163,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d36e63288a25445c5a0ca018fa69d88b, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1491063
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1491065}
-  - component: {fileID: 1491064}
-  m_Layer: 0
-  m_Name: PlayerProxy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1491064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1491063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df735b22a0fba4e319024d2fd0f6e805, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1791952247}
---- !u!4 &1491065
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1491063}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1186704929}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &12516807 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4352677355741222, guid: d36e63288a25445c5a0ca018fa69d88b,
@@ -2191,61 +2150,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114954628249780462, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1491064}
-    - target: {fileID: 114954628249780462, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1491064}
     - target: {fileID: 223640092444001752, guid: 0020f8c02b4f84f3eb25d8024d358608,
         type: 2}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1496527209}
-    - target: {fileID: 114584493487480336, guid: 0020f8c02b4f84f3eb25d8024d358608,
+    - target: {fileID: 114492857608685420, guid: 0020f8c02b4f84f3eb25d8024d358608,
         type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: player
       value: 
-      objectReference: {fileID: 1491064}
-    - target: {fileID: 114584493487480336, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1491064}
-    - target: {fileID: 114448863931329352, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1491064}
-    - target: {fileID: 114954628249780462, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PushLeftButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 114954628249780462, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ReleaseMoveButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 114584493487480336, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PushRightButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 114584493487480336, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PushRightButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 114448863931329352, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PushJumpButton
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1791952247}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
   m_IsPrefabParent: 0
@@ -4216,11 +4130,6 @@ Prefab:
 --- !u!1 &1186704927 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1663718404718080, guid: 0020f8c02b4f84f3eb25d8024d358608,
-    type: 2}
-  m_PrefabInternal: {fileID: 623584376}
---- !u!4 &1186704929 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4718558416402110, guid: 0020f8c02b4f84f3eb25d8024d358608,
     type: 2}
   m_PrefabInternal: {fileID: 623584376}
 --- !u!1001 &1199844605
