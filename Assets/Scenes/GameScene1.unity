@@ -5396,6 +5396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98fb45dd474474a4a950f34380fbfbb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startXOffset: 6.5
+  endXOffset: 25.5
+  startYOffset: 4
+  endYOffset: 12
 --- !u!1001 &1506612185
 Prefab:
   m_ObjectHideFlags: 0
