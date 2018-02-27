@@ -3,37 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraWork : MonoBehaviour {
-	private const float START_X_OFFSET = 6.5f;
-	private const float END_X_OFFSET = 25.5f;
-	private const float START_Y_OFFSET = 4.0f;
-	private const float END_Y_OFFSET = 12.0f;
+	public float startXOffset;
+	public float endXOffset;
+	public float startYOffset;
+	public float endYOffset;
 
 	private GameObject player;		// プレイヤー
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
+		// TODO: マップのタイルマップから取得するようにしたい
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (player) {
 			float x = player.transform.position.x;
-			if (x < START_X_OFFSET) {
-				x = START_X_OFFSET;
-			} else if (x > END_X_OFFSET) {
-				x = END_X_OFFSET;
+			if (x < startXOffset) {
+				x = startXOffset;
+			} else if (x > endXOffset) {
+				x = endXOffset;
 			}
 
 			float y = player.transform.position.y;
-			if (y < START_Y_OFFSET) {
-				y = START_Y_OFFSET;
-			} else if (y > END_Y_OFFSET) {
-				y = END_Y_OFFSET;
+			if (y < startYOffset) {
+				y = startYOffset;
+			} else if (y > endYOffset) {
+				y = endYOffset;
 			}
-
-
-
 
 			transform.position = new Vector3 (x, y, transform.position.z);
 		}
