@@ -11,10 +11,10 @@ public class TitleManager : MonoBehaviour {
 	void Start () {
 		audioSource = this.gameObject.GetComponent<AudioSource> ();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	// ゲーム開始
@@ -31,6 +31,6 @@ public class TitleManager : MonoBehaviour {
 
 	// ゲームシーン切り替え
 	void ChangeToGameScene () {
-		SceneManager.LoadScene ("GameScene1");
+		SceneManager.LoadScene ("StageSelectScene");
 	}
 }
