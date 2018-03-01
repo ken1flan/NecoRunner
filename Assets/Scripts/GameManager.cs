@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+	public string sceneName;	// シーン名
+
 	public GameObject panelGameEnd;		// ゲームエンドパネル
 	public GameObject textGameOver;		// ゲームオーバーテキスト
 	public GameObject textGameClear;	// ゲームクリアテキスト
@@ -26,19 +28,22 @@ public class GameManager : MonoBehaviour {
 	private STATUS status = STATUS.PLAYING;
 
 	// 保存用キー
-	private const string SAVE_KEY_BEST_TIME = "SAVE_KEY_BEST_TIME";	// ベストタイム
+	private const string SAVE_KEY_FORMAT_BEST_TIME = "BEST_TIME_{0}";	// ベストタイム
 	private const float BEST_TIME_DEFAULT = 9999.99f;	// 初期ベストタイム
 
 	// Use this for initialization
 	void Start () {
+		// シーン名の取得
+		sceneName = SceneManager.GetActiveScene().name;
+
 		// オーディオソースの設定
 		audioSource = this.gameObject.GetComponent<AudioSource> ();
 
 		// ベストタイム読み込み
-		var bestTime = PlayerPrefs.GetFloat (SAVE_KEY_BEST_TIME, BEST_TIME_DEFAULT);
+		var bestTime = BestTime ();
 		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (status == STATUS.PLAYING) {
@@ -86,11 +91,21 @@ public class GameManager : MonoBehaviour {
 		UpdateBestTime ();
 	}
 
+	// ベストタイム保存キー取得
+	string SaveKeyBestTime () {
+		return string.Format(SAVE_KEY_FORMAT_BEST_TIME, sceneName.ToUpper ());
+	}
+
+	// ベストタイム読み込み
+	float BestTime () {
+		return PlayerPrefs.GetFloat (SaveKeyBestTime (), BEST_TIME_DEFAULT);
+	}
+
 	// ベストタイム更新
 	void UpdateBestTime () {
-		var bestTime = PlayerPrefs.GetFloat (SAVE_KEY_BEST_TIME, BEST_TIME_DEFAULT);
+		var bestTime = BestTime ();
 		if (time < bestTime) {
-			PlayerPrefs.SetFloat (SAVE_KEY_BEST_TIME, time);
+			PlayerPrefs.SetFloat (SaveKeyBestTime (), time);
 
 			string newTimeString = time.ToString ("Best ###0.00 Sec");
 			textBestTime.GetComponent<Text> ().text = newTimeString;
