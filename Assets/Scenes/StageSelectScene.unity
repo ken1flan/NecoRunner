@@ -505,6 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f799b4012e84e21939f2ceb45b20f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectStageManager: {fileID: 234324236}
 --- !u!114 &797578064
 MonoBehaviour:
   m_ObjectHideFlags: 0

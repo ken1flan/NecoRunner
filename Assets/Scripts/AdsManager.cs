@@ -12,6 +12,8 @@ public class AdsManager : MonoBehaviour {
 	private string gameId = "1721183";
 	#endif
 
+	public GameObject selectStageManager;
+	private const string PLACEMENT_ID = "rewardedVideo";
 	private Rigidbody2D rbody;
 	private const float SPEED = -50f;
 	private float currentSpeed = SPEED;
@@ -36,6 +38,24 @@ public class AdsManager : MonoBehaviour {
 	}
 
 	public void OnStartAds () {
-		Advertisement.Show();
+		selectStageManager.GetComponent<AudioSource> ().Stop();
+
+		ShowOptions options = new ShowOptions();
+    options.resultCallback = HandleShowResult;
+    Advertisement.Show(PLACEMENT_ID, options);
+	}
+
+	void HandleShowResult (ShowResult result) {
+		if (result == ShowResult.Finished) {
+		Debug.Log("Video completed - Offer a reward to the player");
+
+		} else if(result == ShowResult.Skipped) {
+				Debug.LogWarning("Video was skipped - Do NOT reward the player");
+
+		} else if(result == ShowResult.Failed) {
+				Debug.LogError("Video failed to show");
+		}
+
+		selectStageManager.GetComponent<AudioSource> ().Play ();
 	}
 }
