@@ -13,6 +13,8 @@ public class AdsManager : MonoBehaviour {
 	#endif
 
 	public GameObject selectStageManager;
+	private Animator animator;
+	private float BOWING_ANIMATION_TIME = 2.4f;
 	private const string PLACEMENT_ID = "rewardedVideo";
 	private Rigidbody2D rbody;
 	private const float SPEED = -50f;
@@ -27,6 +29,8 @@ public class AdsManager : MonoBehaviour {
 
 		rbody = GetComponent<Rigidbody2D> ();
 		rbody.velocity = new Vector2 (SPEED, 0);
+
+		animator = GetComponent<Animator> ();
 	}
 
 	// Update is called once per frame
@@ -47,15 +51,27 @@ public class AdsManager : MonoBehaviour {
 
 	void HandleShowResult (ShowResult result) {
 		if (result == ShowResult.Finished) {
-		Debug.Log("Video completed - Offer a reward to the player");
-
+			Debug.Log("Video completed - Offer a reward to the player");
 		} else if(result == ShowResult.Skipped) {
 				Debug.LogWarning("Video was skipped - Do NOT reward the player");
-
 		} else if(result == ShowResult.Failed) {
 				Debug.LogError("Video failed to show");
 		}
+		StartBowing ();
+		// FIXME: アニメーションの終了を検知してからにしたい
+		Invoke ("EndBowing", BOWING_ANIMATION_TIME);
 
 		selectStageManager.GetComponent<AudioSource> ().Play ();
+	}
+
+	void StartBowing () {
+		rbody.velocity = new Vector2 (0, 0);
+
+		animator.SetBool("bowing", true);
+	}
+
+	void EndBowing () {
+		rbody.velocity = new Vector2 (SPEED, 0);
+		animator.SetBool("bowing", false);
 	}
 }
