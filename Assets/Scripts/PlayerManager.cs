@@ -7,9 +7,17 @@ public class PlayerManager : MonoBehaviour {
 	public GameObject gameManager;	// ゲームマネージャ
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 
+	public enum Statuses {
+		Standing = 1,
+		Running = 2,
+		Jumping = 3
+	}
+	public Statuses status = Statuses.Standing;
 	private const float MOVE_SPEED = 3;	// スピード
 	private float velocityX = 0;		// 現在のスピード
 	private float velocityY = 0;		// 現在のスピード
+
+	// TODO: MoveDirに変える
 	public enum MOVE_DIR{
 		STOP,
 		LEFT,
@@ -27,6 +35,7 @@ public class PlayerManager : MonoBehaviour {
 
 	private AudioSource audioSource;		// オーディオソース
 	public AudioClip jumpSe;				// ジャンプSE
+	private Animator animator;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +43,7 @@ public class PlayerManager : MonoBehaviour {
 
 		// オーディオソースの設定
 		audioSource = gameManager.GetComponent<AudioSource> ();
+		animator = GetComponent<Animator> ();
 	}
 
 	// Update is called once per frame
@@ -54,7 +64,7 @@ public class PlayerManager : MonoBehaviour {
 			transform.position - startOffset,
 			transform.position - startOffset + endOffset,
 			blockLayer);
-		
+
 		if (!usingButtons) {
 			float x = Input.GetAxisRaw ("Horizontal");
 
@@ -86,23 +96,27 @@ public class PlayerManager : MonoBehaviour {
 			case MOVE_DIR.LEFT:
 				velocityX = -MOVE_SPEED;
 				transform.localScale = new Vector2 (-1, 1);
+				status = Statuses.Running;
 				break;
 			case MOVE_DIR.RIGHT:
 				velocityX = MOVE_SPEED;
 				transform.localScale = new Vector2 (1, 1);
+				status = Statuses.Running;
 				break;
 			default:
 				velocityX = 0;
+				status = Statuses.Standing;
 				break;
 			}
 		}
-			
+
 		// ジャンプ処理
 		if (goJump) {
 			audioSource.PlayOneShot (jumpSe);
 			velocityY = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goJump = false;
+			status = Statuses.Jumping;
 		} else if (goWallRightJump) {
 			audioSource.PlayOneShot (jumpSe);
 			velocityY = 0;
@@ -110,6 +124,7 @@ public class PlayerManager : MonoBehaviour {
 			goWallRightJump = false;
 			velocityX = -MOVE_SPEED;
 			transform.localScale = new Vector2 (-1, 1);
+			status = Statuses.Jumping;
 		} else if (goWallLeftJump) {
 			audioSource.PlayOneShot (jumpSe);
 			velocityY = 0;
@@ -117,10 +132,13 @@ public class PlayerManager : MonoBehaviour {
 			goWallLeftJump = false;
 			velocityX = MOVE_SPEED;
 			transform.localScale = new Vector2 (1, 1);
+			status = Statuses.Jumping;
 		}
 
 		// 移動速度設定
 		rbody.velocity = new Vector2 (velocityX, velocityY);
+
+		animator.SetInteger("status", (int)status);
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
