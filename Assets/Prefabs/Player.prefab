@@ -137,6 +137,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   gameManager: {fileID: 0}
+  status: 1
   jumpSe: {fileID: 8300000, guid: 37ddad4b152384b349b2f8e872fd839d, type: 3}
 --- !u!212 &212444459102275106
 SpriteRenderer:
