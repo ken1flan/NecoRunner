@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
 		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
 
 		// 開始パネル設定
-		panelGameStart.GetComponent<PanelGameStartManager> ().SetConfigurations(audioSource);
+		panelGameStart.GetComponent<PanelGameStartManager> ().SetConfigurations(audioSource, OnCompleteGameStartPanel);
 	}
 
 	// Update is called once per frame
@@ -61,6 +61,12 @@ public class GameManager : MonoBehaviour {
 				textComponent.text = newTimeString;
 			}
 		}
+	}
+
+	// ゲーム開始パネルの表示完了後処理
+	public void OnCompleteGameStartPanel () {
+		time = 0;
+		audioSource.Play();
 	}
 
 	// ゲームオーバー処理

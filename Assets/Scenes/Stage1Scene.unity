@@ -157,11 +157,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &288429650 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1158608019064994, guid: 0020f8c02b4f84f3eb25d8024d358608,
-    type: 2}
-  m_PrefabInternal: {fileID: 430404402}
 --- !u!1 &362996150
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,40 +298,16 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 490317899}
-    - target: {fileID: 1158608019064994, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114776615608256514, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: textSignal
-      value: 
-      objectReference: {fileID: 1438677578}
     - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
         type: 2}
-      propertyPath: m_Color.g
-      value: 0.5019608
+      propertyPath: m_Text
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 114776615608256514, guid: 0020f8c02b4f84f3eb25d8024d358608,
+    - target: {fileID: 114279218455951602, guid: 0020f8c02b4f84f3eb25d8024d358608,
         type: 2}
-      propertyPath: readySe
-      value: 
-      objectReference: {fileID: 8300000, guid: 407932ab40c3d4ae5845f5bb97885747, type: 3}
-    - target: {fileID: 114776615608256514, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: setSe
-      value: 
-      objectReference: {fileID: 8300000, guid: 407932ab40c3d4ae5845f5bb97885747, type: 3}
-    - target: {fileID: 114776615608256514, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: goSe
-      value: 
-      objectReference: {fileID: 8300000, guid: bd9f78eb318db448ea0fbdce5a3758f1, type: 3}
-    - target: {fileID: 114408235662555896, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: panelGameStart
-      value: 
-      objectReference: {fileID: 288429650}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
   m_IsPrefabParent: 0
@@ -3297,11 +3268,6 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
---- !u!1 &1438677578 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1149380776652846, guid: 0020f8c02b4f84f3eb25d8024d358608,
-    type: 2}
-  m_PrefabInternal: {fileID: 430404402}
 --- !u!1 &1541296882
 GameObject:
   m_ObjectHideFlags: 0
