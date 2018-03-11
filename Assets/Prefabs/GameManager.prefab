@@ -80,7 +80,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1158627974644070
 GameObject:
   m_ObjectHideFlags: 1
@@ -678,6 +678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: 
+  panelGameStart: {fileID: 1158608019064994}
   panelGameEnd: {fileID: 1061977016739400}
   textGameOver: {fileID: 1599814939784816}
   textGameClear: {fileID: 1158627974644070}
@@ -991,7 +992,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab49e870dcc7f4af9812911578bfb57c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textSignal: {fileID: 0}
+  textSignal: {fileID: 1149380776652846}
+  readySe: {fileID: 8300000, guid: 407932ab40c3d4ae5845f5bb97885747, type: 3}
+  setSe: {fileID: 8300000, guid: 407932ab40c3d4ae5845f5bb97885747, type: 3}
+  goSe: {fileID: 8300000, guid: bd9f78eb318db448ea0fbdce5a3758f1, type: 3}
+  status: 0
 --- !u!114 &114787193925305116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1034,7 +1039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5, b: 0.5, a: 1}
+  m_Color: {r: 1, g: 0.5019608, b: 0.5, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

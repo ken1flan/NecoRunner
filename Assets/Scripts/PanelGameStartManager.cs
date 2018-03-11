@@ -6,6 +6,10 @@ using System;
 
 public class PanelGameStartManager : MonoBehaviour {
 	public GameObject textSignal;
+	public AudioClip readySe;
+	public AudioClip setSe;
+	public AudioClip goSe;
+
 	private Text signal;
 	private Image background;
 
@@ -32,6 +36,8 @@ public class PanelGameStartManager : MonoBehaviour {
 	}
 	public Statuses status = Statuses.Ready;
 
+	private AudioSource audioSource;
+
 	// Use this for initialization
 	void Start () {
 		signal = textSignal.GetComponent<Text> ();
@@ -46,14 +52,20 @@ public class PanelGameStartManager : MonoBehaviour {
 			signal.text = SET_TEXT;
 			signal.color = textColorSet;
 			background.color = backgroundColorSet;
+			audioSource.PlayOneShot(setSe);
 		} else if (time > GO_TIME && status == Statuses.Set) {
 			status = Statuses.Go;
 			signal.text = GO_TEXT;
 			signal.color = textColorGo;
 			background.color = backgroundColorGo;
+			audioSource.PlayOneShot(goSe);
 		} else if ( time > DESTROY_TIME ) {
 			this.hideFlags = HideFlags.DontSave;
 			Destroy (this.gameObject);
 		}
+	}
+
+	public void SetConfigurations (AudioSource audioSource) {
+		this.audioSource = audioSource;
 	}
 }

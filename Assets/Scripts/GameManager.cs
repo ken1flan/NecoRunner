@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	public string sceneName;	// シーン名
 
+	public GameObject panelGameStart;		// ゲーム開始パネル
 	public GameObject panelGameEnd;		// ゲームエンドパネル
 	public GameObject textGameOver;		// ゲームオーバーテキスト
 	public GameObject textGameClear;	// ゲームクリアテキスト
@@ -39,9 +40,15 @@ public class GameManager : MonoBehaviour {
 		// オーディオソースの設定
 		audioSource = this.gameObject.GetComponent<AudioSource> ();
 
+		// BGMは止めて開始
+		audioSource.Stop ();
+
 		// ベストタイム読み込み
 		var bestTime = BestTime ();
 		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
+
+		// 開始パネル設定
+		panelGameStart.GetComponent<PanelGameStartManager> ().SetConfigurations(audioSource);
 	}
 
 	// Update is called once per frame
