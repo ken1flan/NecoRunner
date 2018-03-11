@@ -302,6 +302,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114776615608256514, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: textSignal
+      value: 
+      objectReference: {fileID: 1438677578}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
   m_IsPrefabParent: 0
@@ -3262,6 +3267,11 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+--- !u!1 &1438677578 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1149380776652846, guid: 0020f8c02b4f84f3eb25d8024d358608,
+    type: 2}
+  m_PrefabInternal: {fileID: 430404402}
 --- !u!1 &1541296882
 GameObject:
   m_ObjectHideFlags: 0
