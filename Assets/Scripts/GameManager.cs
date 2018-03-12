@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	public string sceneName;	// シーン名
 
+	public GameObject panelGameStart;		// ゲーム開始パネル
 	public GameObject panelGameEnd;		// ゲームエンドパネル
 	public GameObject textGameOver;		// ゲームオーバーテキスト
 	public GameObject textGameClear;	// ゲームクリアテキスト
@@ -21,11 +22,12 @@ public class GameManager : MonoBehaviour {
 
 	private float time = 0;			// 現在の経過時間
 	public enum STATUS {
+		STARTING,
 		PLAYING,
 		GAMEOVER,
 		GAMECLEAR,
 	};
-	private STATUS status = STATUS.PLAYING;
+	private STATUS status = STATUS.STARTING;
 
 	// 保存用キー
 	private const string SAVE_KEY_FORMAT_BEST_TIME = "BEST_TIME_{0}";	// ベストタイム
@@ -39,9 +41,15 @@ public class GameManager : MonoBehaviour {
 		// オーディオソースの設定
 		audioSource = this.gameObject.GetComponent<AudioSource> ();
 
+		// BGMは止めて開始
+		audioSource.Stop ();
+
 		// ベストタイム読み込み
 		var bestTime = BestTime ();
 		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
+
+		// 開始パネル設定
+		panelGameStart.GetComponent<PanelGameStartManager> ().SetConfigurations(audioSource, OnCompleteGameStartPanel);
 	}
 
 	// Update is called once per frame
@@ -54,6 +62,13 @@ public class GameManager : MonoBehaviour {
 				textComponent.text = newTimeString;
 			}
 		}
+	}
+
+	// ゲーム開始パネルの表示完了後処理
+	public void OnCompleteGameStartPanel () {
+		status = STATUS.PLAYING;
+		time = 0;
+		audioSource.Play();
 	}
 
 	// ゲームオーバー処理

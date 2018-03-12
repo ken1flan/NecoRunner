@@ -254,18 +254,7 @@ MonoBehaviour:
   endXOffset: 20
   startYOffset: 0
   endYOffset: 20
---- !u!1 &490317899 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1662285360881368, guid: 4aa5a981685a743d5832c4388f6b6e38,
-    type: 2}
-  m_PrefabInternal: {fileID: 786895035}
---- !u!114 &553189982 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114492857608685420, guid: 0020f8c02b4f84f3eb25d8024d358608,
-    type: 2}
-  m_PrefabInternal: {fileID: 592691324}
-  m_Script: {fileID: 11500000, guid: df735b22a0fba4e319024d2fd0f6e805, type: 3}
---- !u!1001 &592691324
+--- !u!1001 &430404402
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -309,19 +298,44 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 490317899}
-    - target: {fileID: 114954628249780462, guid: 0020f8c02b4f84f3eb25d8024d358608,
+    - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
         type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_Text
       value: 
-      objectReference: {fileID: 553189982}
-    - target: {fileID: 114954628249780462, guid: 0020f8c02b4f84f3eb25d8024d358608,
+      objectReference: {fileID: 0}
+    - target: {fileID: 114279218455951602, guid: 0020f8c02b4f84f3eb25d8024d358608,
         type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PushLeftButton
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114058686043980338, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: m_Text
+      value: 0.00 sec
+      objectReference: {fileID: 0}
+    - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &490317899 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1662285360881368, guid: 4aa5a981685a743d5832c4388f6b6e38,
+    type: 2}
+  m_PrefabInternal: {fileID: 786895035}
 --- !u!1001 &786895035
 Prefab:
   m_ObjectHideFlags: 0
@@ -373,7 +387,7 @@ Prefab:
 GameObject:
   m_PrefabParentObject: {fileID: 1663718404718080, guid: 0020f8c02b4f84f3eb25d8024d358608,
     type: 2}
-  m_PrefabInternal: {fileID: 592691324}
+  m_PrefabInternal: {fileID: 430404402}
 --- !u!1001 &1162374227
 Prefab:
   m_ObjectHideFlags: 0
@@ -3274,6 +3288,25 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+--- !u!1 &1438677578 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1149380776652846, guid: 0020f8c02b4f84f3eb25d8024d358608,
+    type: 2}
+  m_PrefabInternal: {fileID: 430404402}
+--- !u!114 &1438677582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1438677578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1541296882
 GameObject:
   m_ObjectHideFlags: 0
