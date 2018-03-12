@@ -22,11 +22,12 @@ public class GameManager : MonoBehaviour {
 
 	private float time = 0;			// 現在の経過時間
 	public enum STATUS {
+		STARTING,
 		PLAYING,
 		GAMEOVER,
 		GAMECLEAR,
 	};
-	private STATUS status = STATUS.PLAYING;
+	private STATUS status = STATUS.STARTING;
 
 	// 保存用キー
 	private const string SAVE_KEY_FORMAT_BEST_TIME = "BEST_TIME_{0}";	// ベストタイム
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour {
 
 	// ゲーム開始パネルの表示完了後処理
 	public void OnCompleteGameStartPanel () {
+		status = STATUS.PLAYING;
 		time = 0;
 		audioSource.Play();
 	}
