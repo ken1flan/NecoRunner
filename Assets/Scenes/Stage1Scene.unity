@@ -313,6 +313,21 @@ Prefab:
       propertyPath: m_Text
       value: 0.00 sec
       objectReference: {fileID: 0}
+    - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114860186801467910, guid: 0020f8c02b4f84f3eb25d8024d358608,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
   m_IsPrefabParent: 0
@@ -3273,6 +3288,25 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+--- !u!1 &1438677578 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1149380776652846, guid: 0020f8c02b4f84f3eb25d8024d358608,
+    type: 2}
+  m_PrefabInternal: {fileID: 430404402}
+--- !u!114 &1438677582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1438677578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1541296882
 GameObject:
   m_ObjectHideFlags: 0
