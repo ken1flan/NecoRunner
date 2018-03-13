@@ -9,17 +9,13 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject panelGameStart;		// ゲーム開始パネル
 	public GameObject panelGameEnd;		// ゲームエンドパネル
-	public GameObject textGameOver;		// ゲームオーバーテキスト
-	public GameObject textGameClear;	// ゲームクリアテキスト
 	public GameObject buttons;			// 操作ボタン
 	public GameObject textTime;			// タイム表示
 	public GameObject textBestTime;		// ベストタイム
 
 	private AudioSource audioSource;	// オーディオソース
-	public AudioClip clearSe;			// クリアSE
-	public AudioClip gameOverSe;		// ゲームオーバーSE
-	public AudioClip buttonDownSe;		// ボタン押下SE
 
+	private PanelGameEndManager panelGameEndManager;
 	private float time = 0;			// 現在の経過時間
 	public enum STATUS {
 		STARTING,
@@ -50,6 +46,8 @@ public class GameManager : MonoBehaviour {
 
 		// 開始パネル設定
 		panelGameStart.GetComponent<PanelGameStartManager> ().SetConfigurations(audioSource, OnCompleteGameStartPanel);
+
+		panelGameEndManager = panelGameEnd.GetComponent<PanelGameEndManager> ();
 	}
 
 	// Update is called once per frame
@@ -71,36 +69,22 @@ public class GameManager : MonoBehaviour {
 		audioSource.Play();
 	}
 
+	// PanelGameEndManagerに移動
 	// ゲームオーバー処理
 	public void GameOver () {
+		status = STATUS.GAMEOVER;
 		// BGMを止める
 		audioSource.Stop ();
 
-		// ゲームオーバーSEを鳴らす
-		audioSource.PlayOneShot (gameOverSe);
-
-		// ゲームオーバー画面の表示
-		panelGameEnd.SetActive (true);
-		textGameOver.SetActive (true);
-		buttons.SetActive (false);
-		status = STATUS.GAMEOVER;
+		panelGameEndManager.GameOver ();
 	}
 
+	// PanelGameEndManagerに移動
 	// ゲームクリア処理
 	public void GameClear () {
-		// BGMを止める
-		audioSource.Stop ();
-
-		// クリアSEを鳴らす
-		audioSource.PlayOneShot(clearSe);
-
-		// クリア画面表示
-		panelGameEnd.SetActive (true);
-		textGameClear.SetActive (true);
-		buttons.SetActive (false);
-
-		// ゲームのステータスをクリアに変更
 		status = STATUS.GAMECLEAR;
+		audioSource.Stop ();
+		panelGameEndManager.GameClear ();
 
 		// ベストタイム更新
 		UpdateBestTime ();
@@ -125,20 +109,5 @@ public class GameManager : MonoBehaviour {
 			string newTimeString = time.ToString ("Best ###0.00 Sec");
 			textBestTime.GetComponent<Text> ().text = newTimeString;
 		}
-	}
-
-	// タイトルに戻る
-	public void BackToTitle () {
-		// ボタン押下音を鳴らす
-		audioSource.PlayOneShot(buttonDownSe);
-
-		// なり終わるのを待って、ゲームにシーン変更
-		Invoke("ChangeToTitleScene", 1.0f);
-
-	}
-
-	// タイトルシーンに切り替え
-	void ChangeToTitleScene () {
-		SceneManager.LoadScene ("TitleScene");
 	}
 }
