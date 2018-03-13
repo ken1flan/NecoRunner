@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject textBestTime;		// ベストタイム
 
 	private AudioSource audioSource;	// オーディオソース
-	public AudioClip buttonDownSe;		// ボタン押下SE
 
 	private PanelGameEndManager panelGameEndManager;
 	private float time = 0;			// 現在の経過時間
@@ -110,20 +109,5 @@ public class GameManager : MonoBehaviour {
 			string newTimeString = time.ToString ("Best ###0.00 Sec");
 			textBestTime.GetComponent<Text> ().text = newTimeString;
 		}
-	}
-
-	// タイトルに戻る
-	public void BackToTitle () {
-		// ボタン押下音を鳴らす
-		audioSource.PlayOneShot(buttonDownSe);
-
-		// なり終わるのを待って、ゲームにシーン変更
-		Invoke("ChangeToTitleScene", 1.0f);
-
-	}
-
-	// タイトルシーンに切り替え
-	void ChangeToTitleScene () {
-		SceneManager.LoadScene ("TitleScene");
 	}
 }

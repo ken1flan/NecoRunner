@@ -477,7 +477,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114408235662555896}
+        - m_Target: {fileID: 114811132113749214}
           m_MethodName: BackToTitle
           m_Mode: 1
           m_Arguments:
@@ -633,14 +633,9 @@ MonoBehaviour:
   sceneName: 
   panelGameStart: {fileID: 1158608019064994}
   panelGameEnd: {fileID: 1061977016739400}
-  textGameOver: {fileID: 0}
-  textGameClear: {fileID: 0}
   buttons: {fileID: 1751288021954146}
   textTime: {fileID: 1096366727670842}
   textBestTime: {fileID: 1571583425611430}
-  clearSe: {fileID: 8300000, guid: 7a5ee273e8b9346eda7e742bbd03b11e, type: 3}
-  gameOverSe: {fileID: 8300000, guid: 538cc7f4518ae49ee85ad52f13cfa060, type: 3}
-  buttonDownSe: {fileID: 8300000, guid: 8e13331cbb0514e358e261384a2b35db, type: 3}
 --- !u!114 &114448863931329352
 MonoBehaviour:
   m_ObjectHideFlags: 1
