@@ -631,6 +631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: 
+  playerObject: {fileID: 1992312886701428}
   panelGameStart: {fileID: 1158608019064994}
   panelGameEnd: {fileID: 1061977016739400}
   buttons: {fileID: 1751288021954146}
