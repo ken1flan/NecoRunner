@@ -311,12 +311,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1663718404718080, guid: 0020f8c02b4f84f3eb25d8024d358608,
     type: 2}
   m_PrefabInternal: {fileID: 1384980722}
---- !u!114 &1118929128 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114811132113749214, guid: 0020f8c02b4f84f3eb25d8024d358608,
-    type: 2}
-  m_PrefabInternal: {fileID: 1384980722}
-  m_Script: {fileID: 11500000, guid: ad9d0f782f8cf46bca59aa546277778f, type: 3}
 --- !u!1001 &1162374227
 Prefab:
   m_ObjectHideFlags: 0
@@ -3261,16 +3255,6 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 490317899}
-    - target: {fileID: 114192449881206382, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1118929128}
-    - target: {fileID: 114192449881206382, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackToTitle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
   m_IsPrefabParent: 0

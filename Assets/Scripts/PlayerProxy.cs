@@ -16,6 +16,10 @@ public class PlayerProxy : MonoBehaviour {
 
 	}
 
+	public void StartGame () {
+		playerManager.StartGame ();
+	}
+
 	public void PushLeftButton () {
 		playerManager.PushLeftButton ();
 	}

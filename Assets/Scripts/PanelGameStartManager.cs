@@ -13,6 +13,7 @@ public class PanelGameStartManager : MonoBehaviour {
 	public delegate void OnComplete ();
 	protected OnComplete onCompleteCallback;
 
+	private float time;
 	private Text signal;
 	private Image background;
 
@@ -50,7 +51,7 @@ public class PanelGameStartManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		var time = Time.time;
+		time += Time.deltaTime;
 		if (time > READY_TIME && status == Statuses.BeforeStart) {
 			status = Statuses.Ready;
 			signal.text = READY_TEXT;
@@ -77,6 +78,7 @@ public class PanelGameStartManager : MonoBehaviour {
 	}
 
 	public void SetConfigurations (AudioSource audioSource, OnComplete onCompleteCallback) {
+		time = 0;
 		this.audioSource = audioSource;
 		this.onCompleteCallback = onCompleteCallback;
 	}

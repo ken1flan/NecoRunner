@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviour {
 		LEFT,
 		RIGHT,
 	};
+	private bool canMove = false;
 	private MOVE_DIR moveDirection = MOVE_DIR.STOP;	// 移動方向
 	private float jumpPower = 300;			// ジャンプ力
 	private bool goJump = false;			// ジャンプしたか否か
@@ -86,6 +87,10 @@ public class PlayerManager : MonoBehaviour {
 
 	// 固定更新処理
 	void FixedUpdate () {
+		if (!canMove) {
+			return;
+		}
+
 		// 現在のスピード
 		velocityX = rbody.velocity.x;
 		velocityY = rbody.velocity.y;
@@ -155,6 +160,10 @@ public class PlayerManager : MonoBehaviour {
 	}
 	void DestroyPlayer () {
 		Destroy (this.gameObject);
+	}
+
+	public void StartGame () {
+		canMove = true;
 	}
 
 	public void PushLeftButton () {
