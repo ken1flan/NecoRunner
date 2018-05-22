@@ -12,6 +12,7 @@ public class DogManager : MonoBehaviour {
 	private float startX;
 	private float territoryRight;
 	private float territoryLeft;
+	private GameObject player;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,8 @@ public class DogManager : MonoBehaviour {
 		startX = transform.position.x;
 		territoryLeft = startX - TERRITORY_WIDTH;
 		territoryRight = startX + TERRITORY_WIDTH;
+
+		player = GameObject.Find("Player");
 	}
 
 	// Update is called once per frame
@@ -33,7 +36,25 @@ public class DogManager : MonoBehaviour {
 			transform.localScale = new Vector2 (1, 1);
 		}
 
+		if (needsBark()) {
+			Debug.Log("FOUND");
+		} else {
+			Debug.Log("NOT FOUND");
+		}
+
 		var velocity = rbody.velocity;
 		rbody.velocity = new Vector2 ((float)moveDirection * VEROCITY, velocity.y);
+	}
+
+	private bool needsBark () {
+		var currentPosX = transform.position.x;
+		var playerPosX = player.transform.position.x;
+
+		if (moveDirection == MoveDirection.Right && playerPosX < currentPosX + TERRITORY_WIDTH && playerPosX >= currentPosX) {
+			return true;
+		} else if (moveDirection == MoveDirection.Left && playerPosX > currentPosX - TERRITORY_WIDTH && playerPosX <= currentPosX) {
+			return true;
+		}
+		return false;
 	}
 }
