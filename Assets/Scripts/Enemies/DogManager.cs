@@ -1,18 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DogManager : MonoBehaviour {
-	private const float TERRITORY_WIDTH = 1.5f;
+	private const float TERRITORY_WIDTH = 2.0f;
 	private const float VEROCITY = 1;
 	public enum MoveDirection { Right = 1, Left = -1 }
 	public MoveDirection moveDirection = MoveDirection.Left;
+	public enum Statuses { Walking = 1, Barking = 2 }
+	public Statuses status = Statuses.Walking;
+	private DateTime barkingStartTime;
+	private const float BARKING_TIME = 1.0f;
 
 	private Rigidbody2D rbody;
 	private float startX;
 	private float territoryRight;
 	private float territoryLeft;
 	private GameObject player;
+	private Animator animator;
 
 	// Use this for initialization
 	void Start () {
@@ -20,30 +26,44 @@ public class DogManager : MonoBehaviour {
 		startX = transform.position.x;
 		territoryLeft = startX - TERRITORY_WIDTH;
 		territoryRight = startX + TERRITORY_WIDTH;
+		animator = GetComponent<Animator> ();
 
 		player = GameObject.Find("Player");
 	}
 
 	// Update is called once per frame
 	void Update () {
-		// 左右にうろうろする
-		var currentPosX = transform.position.x;
-		if (territoryLeft > currentPosX) {
-			moveDirection = MoveDirection.Right;
-			transform.localScale = new Vector2 (-1, 1);
-		} else if (territoryRight < currentPosX) {
-			moveDirection = MoveDirection.Left;
-			transform.localScale = new Vector2 (1, 1);
-		}
 
 		if (needsBark()) {
-			Debug.Log("FOUND");
+			barkingStartTime = DateTime.Now;
+			status = Statuses.Barking;
 		} else {
-			Debug.Log("NOT FOUND");
+			if (status == Statuses.Barking && (DateTime.Now - barkingStartTime).TotalSeconds > BARKING_TIME) {
+				status = Statuses.Walking;
+			}
 		}
 
+		var currentPosX = transform.position.x;
 		var velocity = rbody.velocity;
-		rbody.velocity = new Vector2 ((float)moveDirection * VEROCITY, velocity.y);
+		switch(status){
+			case Statuses.Barking:
+				rbody.velocity = new Vector2 (0.0f, velocity.y);
+			  break;
+			case Statuses.Walking:
+				if (territoryLeft > currentPosX) {
+					moveDirection = MoveDirection.Right;
+					transform.localScale = new Vector2 (-1, 1);
+				} else if (territoryRight < currentPosX) {
+					moveDirection = MoveDirection.Left;
+					transform.localScale = new Vector2 (1, 1);
+				}
+				rbody.velocity = new Vector2 ((float)moveDirection * VEROCITY, velocity.y);
+				break;
+			default:
+				break;
+		}
+		Debug.Log(status);
+		animator.SetInteger("status", (int)status);
 	}
 
 	private bool needsBark () {
