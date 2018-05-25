@@ -3278,6 +3278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDirection: -1
+  status: 1
+  barkSound: {fileID: 8300000, guid: bfdb5c17bc9bd455b9ecf465b2da73cd, type: 3}
 --- !u!95 &1922743067
 Animator:
   serializedVersion: 3

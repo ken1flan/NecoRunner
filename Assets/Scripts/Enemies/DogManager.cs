@@ -11,7 +11,8 @@ public class DogManager : MonoBehaviour {
 	public enum Statuses { Walking = 1, Barking = 2 }
 	public Statuses status = Statuses.Walking;
 	private DateTime barkingStartTime;
-	private const float BARKING_TIME = 1.0f;
+	private const float BARKING_TIME = 0.5f;
+	public AudioClip barkSound;
 
 	private Rigidbody2D rbody;
 	private float startX;
@@ -19,9 +20,14 @@ public class DogManager : MonoBehaviour {
 	private float territoryLeft;
 	private GameObject player;
 	private Animator animator;
+	private GameObject gameManager;
+	private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
+		gameManager = GameObject.Find("GameManager");
+		audioSource = gameManager.GetComponent<AudioSource>();
+
 		rbody = GetComponent<Rigidbody2D> ();
 		startX = transform.position.x;
 		territoryLeft = startX - TERRITORY_WIDTH;
@@ -34,12 +40,15 @@ public class DogManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (needsBark()) {
-			barkingStartTime = DateTime.Now;
-			status = Statuses.Barking;
-		} else {
-			if (status == Statuses.Barking && (DateTime.Now - barkingStartTime).TotalSeconds > BARKING_TIME) {
-				status = Statuses.Walking;
+		if (status == Statuses.Barking && (DateTime.Now - barkingStartTime).TotalSeconds > BARKING_TIME) {
+			status = Statuses.Walking;
+		}
+
+		if (status == Statuses.Walking) {
+			if (needsBark()) {
+				barkingStartTime = DateTime.Now;
+				status = Statuses.Barking;
+				audioSource.PlayOneShot(barkSound);
 			}
 		}
 
@@ -62,7 +71,6 @@ public class DogManager : MonoBehaviour {
 			default:
 				break;
 		}
-		Debug.Log(status);
 		animator.SetInteger("status", (int)status);
 	}
 
