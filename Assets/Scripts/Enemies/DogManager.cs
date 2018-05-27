@@ -22,6 +22,7 @@ public class DogManager : MonoBehaviour {
 	private Animator animator;
 	private GameObject gameManager;
 	private AudioSource audioSource;
+	private GameObject barkWavePrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +36,7 @@ public class DogManager : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 
 		player = GameObject.Find("Player");
+		barkWavePrefab = (GameObject)Resources.Load("Prefabs/Enemies/BarkWave");
 	}
 
 	// Update is called once per frame
@@ -46,9 +48,7 @@ public class DogManager : MonoBehaviour {
 
 		if (status == Statuses.Walking) {
 			if (needsBark()) {
-				barkingStartTime = DateTime.Now;
-				status = Statuses.Barking;
-				audioSource.PlayOneShot(barkSound);
+				bark ();
 			}
 		}
 
@@ -84,5 +84,16 @@ public class DogManager : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	private void bark () {
+		var position = transform.position;
+		var positionBarkWave = new Vector2(position.x, position.y + 1.0f);
+		var quaternion = new Quaternion();
+		var barkWave = Instantiate(barkWavePrefab, positionBarkWave, quaternion);
+
+		barkingStartTime = DateTime.Now;
+		status = Statuses.Barking;
+		audioSource.PlayOneShot(barkSound);
 	}
 }
