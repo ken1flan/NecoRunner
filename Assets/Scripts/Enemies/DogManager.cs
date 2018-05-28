@@ -90,7 +90,9 @@ public class DogManager : MonoBehaviour {
 		var position = transform.position;
 		var positionBarkWave = new Vector2(position.x, position.y + 1.0f);
 		var quaternion = new Quaternion();
-		var barkWave = Instantiate(barkWavePrefab, positionBarkWave, quaternion);
+		var barkWaveGameObject = Instantiate(barkWavePrefab, positionBarkWave, quaternion);
+		var barkWave = barkWaveGameObject.GetComponent<BarkWaveManager>();
+		barkWave.moveDirection = moveDirection == MoveDirection.Left ? BarkWaveManager.MoveDirection.Left : BarkWaveManager.MoveDirection.Right;
 
 		barkingStartTime = DateTime.Now;
 		status = Statuses.Barking;
