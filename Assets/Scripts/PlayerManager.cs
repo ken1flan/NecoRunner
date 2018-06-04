@@ -15,8 +15,6 @@ public class PlayerManager : MonoBehaviour {
 	}
 	public Statuses status = Statuses.Standing;
 	private const float MOVE_SPEED = 3;	// スピード
-	private float velocityX = 0;		// 現在のスピード
-	private float velocityY = 0;		// 現在のスピード
 
 	public enum MoveDirection{
 		STOP,
@@ -92,24 +90,23 @@ public class PlayerManager : MonoBehaviour {
 		}
 
 		// 現在のスピード
-		velocityX = rbody.velocity.x;
-		velocityY = rbody.velocity.y;
+		var newVelocity = rbody.velocity;
 
 		// 移動処理
 		if (canJump) {
 			switch (moveDirection) {
 			case MoveDirection.LEFT:
-				velocityX = -MOVE_SPEED;
+				newVelocity.x = -MOVE_SPEED;
 				transform.localScale = new Vector2 (-1, 1);
 				status = Statuses.Running;
 				break;
 			case MoveDirection.RIGHT:
-				velocityX = MOVE_SPEED;
+				newVelocity.x = MOVE_SPEED;
 				transform.localScale = new Vector2 (1, 1);
 				status = Statuses.Running;
 				break;
 			default:
-				velocityX = 0;
+				newVelocity.x = 0;
 				status = Statuses.Standing;
 				break;
 			}
@@ -118,30 +115,30 @@ public class PlayerManager : MonoBehaviour {
 		// ジャンプ処理
 		if (goJump) {
 			audioSource.PlayOneShot (jumpSe);
-			velocityY = 0;
+			newVelocity.y = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goJump = false;
 			status = Statuses.Jumping;
 		} else if (goWallRightJump) {
 			audioSource.PlayOneShot (jumpSe);
-			velocityY = 0;
+			newVelocity.y = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goWallRightJump = false;
-			velocityX = -MOVE_SPEED;
+			newVelocity.x = -MOVE_SPEED;
 			transform.localScale = new Vector2 (-1, 1);
 			status = Statuses.Jumping;
 		} else if (goWallLeftJump) {
 			audioSource.PlayOneShot (jumpSe);
-			velocityY = 0;
+			newVelocity.y = 0;
 			rbody.AddForce (Vector2.up * jumpPower);
 			goWallLeftJump = false;
-			velocityX = MOVE_SPEED;
+			newVelocity.x = MOVE_SPEED;
 			transform.localScale = new Vector2 (1, 1);
 			status = Statuses.Jumping;
 		}
 
 		// 移動速度設定
-		rbody.velocity = new Vector2 (velocityX, velocityY);
+		rbody.velocity = newVelocity;
 
 		animator.SetInteger("status", (int)status);
 	}
