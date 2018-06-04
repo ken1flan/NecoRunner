@@ -10,7 +10,8 @@ public class PlayerManager : MonoBehaviour {
 	public enum Statuses {
 		Standing = 1,
 		Running = 2,
-		Jumping = 3
+		Jumping = 3,
+		BeingPushedBack = 4
 	}
 	public Statuses status = Statuses.Standing;
 	private const float MOVE_SPEED = 3;	// スピード
@@ -147,16 +148,23 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
-		if (col.gameObject.tag == "Trap") {
+		var gameObject = col.gameObject;
+
+		if (gameObject.tag == "Bullet") {
+			Debug.Log("hit");
+			Destroy(gameObject);
+			BePushedBack ();
+		}
+
+		if (gameObject.tag == "Trap") {
 			gameManager.GetComponent<GameManager> ().GameOver ();
 			DestroyPlayer ();
 		}
 
-		if (col.gameObject.tag == "Goal") {
+		if (gameObject.tag == "Goal") {
 			gameManager.GetComponent<GameManager> ().GameClear ();
 			DestroyPlayer ();
 		}
-
 	}
 	void DestroyPlayer () {
 		Destroy (this.gameObject);
@@ -188,5 +196,9 @@ public class PlayerManager : MonoBehaviour {
 		} else if (canWallLeftJump) {
 			goWallLeftJump = true;
 		}
+	}
+
+	public void BePushedBack () {
+		// 処理
 	}
 }
