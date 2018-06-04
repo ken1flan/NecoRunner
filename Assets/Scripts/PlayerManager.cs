@@ -18,14 +18,13 @@ public class PlayerManager : MonoBehaviour {
 	private float velocityX = 0;		// 現在のスピード
 	private float velocityY = 0;		// 現在のスピード
 
-	// TODO: MoveDirに変える
-	public enum MOVE_DIR{
+	public enum MoveDirection{
 		STOP,
 		LEFT,
 		RIGHT,
 	};
 	private bool canMove = false;
-	private MOVE_DIR moveDirection = MOVE_DIR.STOP;	// 移動方向
+	private MoveDirection moveDirection = MoveDirection.STOP;	// 移動方向
 	private float jumpPower = 300;			// ジャンプ力
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
@@ -71,12 +70,12 @@ public class PlayerManager : MonoBehaviour {
 			float x = Input.GetAxisRaw ("Horizontal");
 
 			if (x == 0) {
-				moveDirection = MOVE_DIR.STOP;
+				moveDirection = MoveDirection.STOP;
 			} else {
 				if (x > 0) {
-					moveDirection = MOVE_DIR.RIGHT;
+					moveDirection = MoveDirection.RIGHT;
 				} else {
-					moveDirection = MOVE_DIR.LEFT;
+					moveDirection = MoveDirection.LEFT;
 				}
 			}
 
@@ -99,12 +98,12 @@ public class PlayerManager : MonoBehaviour {
 		// 移動処理
 		if (canJump) {
 			switch (moveDirection) {
-			case MOVE_DIR.LEFT:
+			case MoveDirection.LEFT:
 				velocityX = -MOVE_SPEED;
 				transform.localScale = new Vector2 (-1, 1);
 				status = Statuses.Running;
 				break;
-			case MOVE_DIR.RIGHT:
+			case MoveDirection.RIGHT:
 				velocityX = MOVE_SPEED;
 				transform.localScale = new Vector2 (1, 1);
 				status = Statuses.Running;
@@ -175,17 +174,17 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushLeftButton () {
-		moveDirection = MOVE_DIR.LEFT;
+		moveDirection = MoveDirection.LEFT;
 		usingButtons = true;
 	}
 
 	public void PushRightButton () {
-		moveDirection = MOVE_DIR.RIGHT;
+		moveDirection = MoveDirection.RIGHT;
 		usingButtons = true;
 	}
 
 	public void ReleaseMoveButton () {
-		moveDirection = MOVE_DIR.STOP;
+		moveDirection = MoveDirection.STOP;
 	}
 
 	public void PushJumpButton () {
