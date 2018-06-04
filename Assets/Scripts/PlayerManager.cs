@@ -139,7 +139,6 @@ public class PlayerManager : MonoBehaviour {
 		var gameObject = col.gameObject;
 
 		if (gameObject.tag == "Bullet") {
-			Debug.Log("hit");
 			Destroy(gameObject);
 			BePushedBack ();
 		}
@@ -188,5 +187,6 @@ public class PlayerManager : MonoBehaviour {
 
 	public void BePushedBack () {
 		// 処理
+		Debug.Log("hit");
 	}
 }
