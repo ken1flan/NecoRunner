@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour {
 	};
 	private bool canMove = false;
 	private MoveDirection moveDirection = MoveDirection.STOP;	// 移動方向
-	private float jumpPower = 300;			// ジャンプ力
+	private const float JUMP_POWER = 300;			// ジャンプ力
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
 	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
@@ -116,13 +116,13 @@ public class PlayerManager : MonoBehaviour {
 		if (goJump) {
 			audioSource.PlayOneShot (jumpSe);
 			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * jumpPower);
+			rbody.AddForce (Vector2.up * JUMP_POWER);
 			goJump = false;
 			status = Statuses.Jumping;
 		} else if (goWallRightJump) {
 			audioSource.PlayOneShot (jumpSe);
 			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * jumpPower);
+			rbody.AddForce (Vector2.up * JUMP_POWER);
 			goWallRightJump = false;
 			newVelocity.x = -MOVE_SPEED;
 			transform.localScale = new Vector2 (-1, 1);
@@ -130,7 +130,7 @@ public class PlayerManager : MonoBehaviour {
 		} else if (goWallLeftJump) {
 			audioSource.PlayOneShot (jumpSe);
 			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * jumpPower);
+			rbody.AddForce (Vector2.up * JUMP_POWER);
 			goWallLeftJump = false;
 			newVelocity.x = MOVE_SPEED;
 			transform.localScale = new Vector2 (1, 1);
