@@ -16,13 +16,9 @@ public class PlayerManager : MonoBehaviour {
 	public Statuses status = Statuses.Standing;
 	private const float MOVE_SPEED = 3;	// スピード
 
-	public enum MoveDirection{
-		STOP,
-		LEFT,
-		RIGHT,
-	};
+	public enum MoveDirection { Right = 1, Stop = 0, Left = -1 };
 	private bool canMove = false;
-	private MoveDirection moveDirection = MoveDirection.STOP;	// 移動方向
+	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private const float JUMP_POWER = 300;			// ジャンプ力
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
@@ -68,12 +64,12 @@ public class PlayerManager : MonoBehaviour {
 			float x = Input.GetAxisRaw ("Horizontal");
 
 			if (x == 0) {
-				moveDirection = MoveDirection.STOP;
+				moveDirection = MoveDirection.Stop;
 			} else {
 				if (x > 0) {
-					moveDirection = MoveDirection.RIGHT;
+					moveDirection = MoveDirection.Right;
 				} else {
-					moveDirection = MoveDirection.LEFT;
+					moveDirection = MoveDirection.Left;
 				}
 			}
 
@@ -95,14 +91,10 @@ public class PlayerManager : MonoBehaviour {
 		// 移動処理
 		if (canJump) {
 			switch (moveDirection) {
-			case MoveDirection.LEFT:
-				newVelocity.x = -MOVE_SPEED;
-				transform.localScale = new Vector2 (-1, 1);
-				status = Statuses.Running;
-				break;
-			case MoveDirection.RIGHT:
-				newVelocity.x = MOVE_SPEED;
-				transform.localScale = new Vector2 (1, 1);
+			case MoveDirection.Left:
+			case MoveDirection.Right:
+				newVelocity.x = (int)moveDirection * MOVE_SPEED;
+				transform.localScale = new Vector2 ((int)moveDirection, 1);
 				status = Statuses.Running;
 				break;
 			default:
@@ -171,17 +163,17 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushLeftButton () {
-		moveDirection = MoveDirection.LEFT;
+		moveDirection = MoveDirection.Left;
 		usingButtons = true;
 	}
 
 	public void PushRightButton () {
-		moveDirection = MoveDirection.RIGHT;
+		moveDirection = MoveDirection.Right;
 		usingButtons = true;
 	}
 
 	public void ReleaseMoveButton () {
-		moveDirection = MoveDirection.STOP;
+		moveDirection = MoveDirection.Stop;
 	}
 
 	public void PushJumpButton () {
