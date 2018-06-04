@@ -136,21 +136,21 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
-		var gameObject = col.gameObject;
+		var collidedGameObject = col.gameObject;
 
-		if (gameObject.tag == "Bullet") {
-			Destroy(gameObject);
-			BePushedBack ();
-		}
-
-		if (gameObject.tag == "Trap") {
-			gameManager.GetComponent<GameManager> ().GameOver ();
-			DestroyPlayer ();
-		}
-
-		if (gameObject.tag == "Goal") {
-			gameManager.GetComponent<GameManager> ().GameClear ();
-			DestroyPlayer ();
+		switch(collidedGameObject.tag) {
+			case "Bullet":
+				Destroy(collidedGameObject);
+				BePushedBack ();
+				break;
+			case "Trap":
+				gameManager.GetComponent<GameManager> ().GameOver ();
+				DestroyPlayer ();
+				break;
+			case "Goal":
+				gameManager.GetComponent<GameManager> ().GameClear ();
+				DestroyPlayer ();
+				break;
 		}
 	}
 	void DestroyPlayer () {
