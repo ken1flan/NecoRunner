@@ -43,22 +43,7 @@ public class PlayerManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// ジャンプ可能か
-		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
-			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
-
-		// 壁ジャンプ可能か
-		Vector3 startOffset = transform.right * 0.6f;
-		Vector3 endOffset = transform.up * 1.5f;
-		canWallRightJump = !canJump && Physics2D.Linecast (
-			transform.position + startOffset,
-			transform.position + startOffset + endOffset,
-			blockLayer);
-
-		canWallLeftJump = !canJump && Physics2D.Linecast (
-			transform.position - startOffset,
-			transform.position - startOffset + endOffset,
-			blockLayer);
+		CheckJumpAvailablity();
 
 		if (!usingButtons) {
 			float x = Input.GetAxisRaw ("Horizontal");
@@ -188,5 +173,24 @@ public class PlayerManager : MonoBehaviour {
 	public void BePushedBack () {
 		// 処理
 		Debug.Log("hit");
+	}
+
+	private void CheckJumpAvailablity () {
+		// ジャンプ可能か
+		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
+			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
+
+		// 壁ジャンプ可能か
+		Vector3 startOffset = transform.right * 0.6f;
+		Vector3 endOffset = transform.up * 1.5f;
+		canWallRightJump = !canJump && Physics2D.Linecast (
+			transform.position + startOffset,
+			transform.position + startOffset + endOffset,
+			blockLayer);
+
+		canWallLeftJump = !canJump && Physics2D.Linecast (
+			transform.position - startOffset,
+			transform.position - startOffset + endOffset,
+			blockLayer);
 	}
 }
