@@ -10,22 +10,16 @@ public class PlayerManager : MonoBehaviour {
 	public enum Statuses {
 		Standing = 1,
 		Running = 2,
-		Jumping = 3
+		Jumping = 3,
+		BeingPushedBack = 4
 	}
 	public Statuses status = Statuses.Standing;
 	private const float MOVE_SPEED = 3;	// スピード
-	private float velocityX = 0;		// 現在のスピード
-	private float velocityY = 0;		// 現在のスピード
 
-	// TODO: MoveDirに変える
-	public enum MOVE_DIR{
-		STOP,
-		LEFT,
-		RIGHT,
-	};
+	public enum MoveDirection { Right = 1, Stop = 0, Left = -1 };
 	private bool canMove = false;
-	private MOVE_DIR moveDirection = MOVE_DIR.STOP;	// 移動方向
-	private float jumpPower = 300;			// ジャンプ力
+	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
+	private const float JUMP_POWER = 300;			// ジャンプ力
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
 	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
@@ -49,33 +43,18 @@ public class PlayerManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// ジャンプ可能か
-		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
-			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
-
-		// 壁ジャンプ可能か
-		Vector3 startOffset = transform.right * 0.6f;
-		Vector3 endOffset = transform.up * 1.5f;
-		canWallRightJump = !canJump && Physics2D.Linecast (
-			transform.position + startOffset,
-			transform.position + startOffset + endOffset,
-			blockLayer);
-
-		canWallLeftJump = !canJump && Physics2D.Linecast (
-			transform.position - startOffset,
-			transform.position - startOffset + endOffset,
-			blockLayer);
+		CheckJumpAvailablity();
 
 		if (!usingButtons) {
 			float x = Input.GetAxisRaw ("Horizontal");
 
 			if (x == 0) {
-				moveDirection = MOVE_DIR.STOP;
+				moveDirection = MoveDirection.Stop;
 			} else {
 				if (x > 0) {
-					moveDirection = MOVE_DIR.RIGHT;
+					moveDirection = MoveDirection.Right;
 				} else {
-					moveDirection = MOVE_DIR.LEFT;
+					moveDirection = MoveDirection.Left;
 				}
 			}
 
@@ -92,24 +71,19 @@ public class PlayerManager : MonoBehaviour {
 		}
 
 		// 現在のスピード
-		velocityX = rbody.velocity.x;
-		velocityY = rbody.velocity.y;
+		var newVelocity = rbody.velocity;
 
 		// 移動処理
 		if (canJump) {
 			switch (moveDirection) {
-			case MOVE_DIR.LEFT:
-				velocityX = -MOVE_SPEED;
-				transform.localScale = new Vector2 (-1, 1);
-				status = Statuses.Running;
-				break;
-			case MOVE_DIR.RIGHT:
-				velocityX = MOVE_SPEED;
-				transform.localScale = new Vector2 (1, 1);
+			case MoveDirection.Left:
+			case MoveDirection.Right:
+				newVelocity.x = (int)moveDirection * MOVE_SPEED;
+				transform.localScale = new Vector2 ((int)moveDirection, 1);
 				status = Statuses.Running;
 				break;
 			default:
-				velocityX = 0;
+				newVelocity.x = 0;
 				status = Statuses.Standing;
 				break;
 			}
@@ -118,45 +92,51 @@ public class PlayerManager : MonoBehaviour {
 		// ジャンプ処理
 		if (goJump) {
 			audioSource.PlayOneShot (jumpSe);
-			velocityY = 0;
-			rbody.AddForce (Vector2.up * jumpPower);
+			newVelocity.y = 0;
+			rbody.AddForce (Vector2.up * JUMP_POWER);
 			goJump = false;
 			status = Statuses.Jumping;
 		} else if (goWallRightJump) {
 			audioSource.PlayOneShot (jumpSe);
-			velocityY = 0;
-			rbody.AddForce (Vector2.up * jumpPower);
+			newVelocity.y = 0;
+			rbody.AddForce (Vector2.up * JUMP_POWER);
 			goWallRightJump = false;
-			velocityX = -MOVE_SPEED;
+			newVelocity.x = -MOVE_SPEED;
 			transform.localScale = new Vector2 (-1, 1);
 			status = Statuses.Jumping;
 		} else if (goWallLeftJump) {
 			audioSource.PlayOneShot (jumpSe);
-			velocityY = 0;
-			rbody.AddForce (Vector2.up * jumpPower);
+			newVelocity.y = 0;
+			rbody.AddForce (Vector2.up * JUMP_POWER);
 			goWallLeftJump = false;
-			velocityX = MOVE_SPEED;
+			newVelocity.x = MOVE_SPEED;
 			transform.localScale = new Vector2 (1, 1);
 			status = Statuses.Jumping;
 		}
 
 		// 移動速度設定
-		rbody.velocity = new Vector2 (velocityX, velocityY);
+		rbody.velocity = newVelocity;
 
 		animator.SetInteger("status", (int)status);
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
-		if (col.gameObject.tag == "Trap") {
-			gameManager.GetComponent<GameManager> ().GameOver ();
-			DestroyPlayer ();
-		}
+		var collidedGameObject = col.gameObject;
 
-		if (col.gameObject.tag == "Goal") {
-			gameManager.GetComponent<GameManager> ().GameClear ();
-			DestroyPlayer ();
+		switch(collidedGameObject.tag) {
+			case "Bullet":
+				Destroy(collidedGameObject);
+				BePushedBack ();
+				break;
+			case "Trap":
+				gameManager.GetComponent<GameManager> ().GameOver ();
+				DestroyPlayer ();
+				break;
+			case "Goal":
+				gameManager.GetComponent<GameManager> ().GameClear ();
+				DestroyPlayer ();
+				break;
 		}
-
 	}
 	void DestroyPlayer () {
 		Destroy (this.gameObject);
@@ -167,17 +147,17 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushLeftButton () {
-		moveDirection = MOVE_DIR.LEFT;
+		moveDirection = MoveDirection.Left;
 		usingButtons = true;
 	}
 
 	public void PushRightButton () {
-		moveDirection = MOVE_DIR.RIGHT;
+		moveDirection = MoveDirection.Right;
 		usingButtons = true;
 	}
 
 	public void ReleaseMoveButton () {
-		moveDirection = MOVE_DIR.STOP;
+		moveDirection = MoveDirection.Stop;
 	}
 
 	public void PushJumpButton () {
@@ -188,5 +168,29 @@ public class PlayerManager : MonoBehaviour {
 		} else if (canWallLeftJump) {
 			goWallLeftJump = true;
 		}
+	}
+
+	public void BePushedBack () {
+		// 処理
+		Debug.Log("hit");
+	}
+
+	private void CheckJumpAvailablity () {
+		// ジャンプ可能か
+		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
+			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
+
+		// 壁ジャンプ可能か
+		Vector3 startOffset = transform.right * 0.6f;
+		Vector3 endOffset = transform.up * 1.5f;
+		canWallRightJump = !canJump && Physics2D.Linecast (
+			transform.position + startOffset,
+			transform.position + startOffset + endOffset,
+			blockLayer);
+
+		canWallLeftJump = !canJump && Physics2D.Linecast (
+			transform.position - startOffset,
+			transform.position - startOffset + endOffset,
+			blockLayer);
 	}
 }
