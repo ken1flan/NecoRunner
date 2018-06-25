@@ -171,7 +171,13 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void BePushedBack () {
+		// おどろいて後ろに飛び退る
+		// 地面に足をつけているときは…
+		//   ジャンプと同じように力を加える
+		//   力の向きは吠え声のあたったほうと逆
+		// 足をつけていないときにはアニメーションだけ変える
 		Debug.Log("hit");
+
 	}
 
 	private void CheckJumpAvailablity () {
