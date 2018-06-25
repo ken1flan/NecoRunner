@@ -171,14 +171,12 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void BePushedBack () {
-		// 処理
 		Debug.Log("hit");
 	}
 
 	private void CheckJumpAvailablity () {
 		// ジャンプ可能か
-		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
-			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
+		canJump = CheckOnGround();
 
 		// 壁ジャンプ可能か
 		Vector3 startOffset = transform.right * 0.6f;
@@ -192,5 +190,10 @@ public class PlayerManager : MonoBehaviour {
 			transform.position - startOffset,
 			transform.position - startOffset + endOffset,
 			blockLayer);
+	}
+
+	private bool CheckOnGround () {
+		return Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
+			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
 	}
 }
