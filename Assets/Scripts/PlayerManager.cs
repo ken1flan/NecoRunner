@@ -20,6 +20,9 @@ public class PlayerManager : MonoBehaviour {
 	private bool canMove = false;
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private const float JUMP_POWER = 300;			// ジャンプ力
+	private Vector2 stepBackDir = new Vector2(1, 1);
+	private const float STEP_BACK_POWER = 150.0f; // 後ずさる力
+	private const float STEP_BACK_SPEED = 3.0f; // 後ずさる速さ
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
 	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
@@ -126,7 +129,7 @@ public class PlayerManager : MonoBehaviour {
 		switch(collidedGameObject.tag) {
 			case "Bullet":
 				Destroy(collidedGameObject);
-				BePushedBack ();
+				StepBack(collidedGameObject);
 				break;
 			case "Trap":
 				gameManager.GetComponent<GameManager> ().GameOver ();
@@ -170,14 +173,25 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-	public void BePushedBack () {
-		// おどろいて後ろに飛び退る
-		// 地面に足をつけているときは…
-		//   ジャンプと同じように力を加える
-		//   力の向きは吠え声のあたったほうと逆
-		// 足をつけていないときにはアニメーションだけ変える
-		Debug.Log("hit");
+	public void StepBack (GameObject collidedGameObject) {
+	// おどろいて後ろに飛び退る
+		// ぶつかったほうに向きを変える
+		var dirX = collidedGameObject.transform.position.x - transform.position.x >= 0 ? MoveDirection.Right : MoveDirection.Left;
 
+		if (CheckOnGround()) {
+			// 少し浮かせないと摩擦で後ろに飛ばない
+			var currentPosition = transform.position;
+			transform.position = new Vector2(currentPosition.x, currentPosition.y + 0.05f);
+
+			var dir = new Vector2(stepBackDir.x * (-1.0f) * (float)dirX, stepBackDir.y);
+			rbody.AddForce(dir * STEP_BACK_POWER);
+		} else {
+			// 足をつけていないときにはアニメーションだけ変える
+		}
+		Debug.Log("hit");
+	}
+
+	private void Turn (MoveDirection dir) {
 	}
 
 	private void CheckJumpAvailablity () {
