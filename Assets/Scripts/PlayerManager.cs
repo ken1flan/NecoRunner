@@ -181,7 +181,7 @@ public class PlayerManager : MonoBehaviour {
 		if (CheckOnGround()) {
 			// 少し浮かせないと摩擦で後ろに飛ばない
 			var currentPosition = transform.position;
-			transform.position = new Vector2(currentPosition.x, currentPosition.y + 0.05f);
+			transform.position = new Vector2(currentPosition.x, currentPosition.y + 0.1f);
 
 			var dir = new Vector2(stepBackDir.x * (-1.0f) * (float)dirX, stepBackDir.y);
 			rbody.AddForce(dir * STEP_BACK_POWER);
