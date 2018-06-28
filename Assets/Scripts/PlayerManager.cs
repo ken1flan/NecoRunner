@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour {
 	private bool canMove = false;
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private const float JUMP_POWER = 300;			// ジャンプ力
-	private Vector2 stepBackDir = new Vector2(1, 1);
+	private Vector2 stepBackDir = new Vector2(1.0f, 0.5f);
 	private const float STEP_BACK_POWER = 150.0f; // 後ずさる力
 	private const float STEP_BACK_SPEED = 3.0f; // 後ずさる速さ
 	private bool goJump = false;			// ジャンプしたか否か
@@ -188,7 +188,9 @@ public class PlayerManager : MonoBehaviour {
 		} else {
 			// 足をつけていないときにはアニメーションだけ変える
 		}
-		Debug.Log("hit");
+		status = Statuses.BeingPushedBack;
+
+		animator.SetInteger("status", (int)status);
 	}
 
 	private void Turn (MoveDirection dir) {
