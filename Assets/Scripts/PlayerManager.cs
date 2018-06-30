@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviour {
 	private Vector2 stepBackDir = new Vector2(1.0f, 0.5f);
 	private const float STEP_BACK_POWER = 150.0f; // 後ずさる力
 	private const float STEP_BACK_SPEED = 3.0f; // 後ずさる速さ
+	private MoveDirection goStepBack = MoveDirection.Stop;	// 飛び退ったか否か
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
 	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
@@ -117,6 +118,13 @@ public class PlayerManager : MonoBehaviour {
 			status = Statuses.Jumping;
 		}
 
+		// 飛び退り処理
+		if (goStepBack != MoveDirection.Stop) {
+			StepBack(goStepBack);
+
+			goStepBack = MoveDirection.Stop;
+		}
+
 		// 移動速度設定
 		rbody.velocity = newVelocity;
 
@@ -128,8 +136,8 @@ public class PlayerManager : MonoBehaviour {
 
 		switch(collidedGameObject.tag) {
 			case "Bullet":
+				goStepBack = collidedGameObject.transform.position.x - transform.position.x <= 0 ? MoveDirection.Right : MoveDirection.Left;
 				Destroy(collidedGameObject);
-				StepBack(collidedGameObject);
 				break;
 			case "Trap":
 				gameManager.GetComponent<GameManager> ().GameOver ();
@@ -173,27 +181,21 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-	public void StepBack (GameObject collidedGameObject) {
+	public void StepBack (MoveDirection direction) {
 	// おどろいて後ろに飛び退る
-		// ぶつかったほうに向きを変える
-		var dirX = collidedGameObject.transform.position.x - transform.position.x >= 0 ? MoveDirection.Right : MoveDirection.Left;
+		transform.localScale = new Vector2 ((int)direction * -1, 1);
 
 		if (CheckOnGround()) {
 			// 少し浮かせないと摩擦で後ろに飛ばない
 			var currentPosition = transform.position;
 			transform.position = new Vector2(currentPosition.x, currentPosition.y + 0.1f);
 
-			var dir = new Vector2(stepBackDir.x * (-1.0f) * (float)dirX, stepBackDir.y);
-			rbody.AddForce(dir * STEP_BACK_POWER);
-		} else {
-			// 足をつけていないときにはアニメーションだけ変える
+			var v = new Vector2((float)direction * stepBackDir.x, stepBackDir.y);
+			rbody.AddForce(v * STEP_BACK_POWER);
 		}
 		status = Statuses.BeingPushedBack;
 
 		animator.SetInteger("status", (int)status);
-	}
-
-	private void Turn (MoveDirection dir) {
 	}
 
 	private void CheckJumpAvailablity () {
