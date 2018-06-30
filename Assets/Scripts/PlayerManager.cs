@@ -95,11 +95,7 @@ public class PlayerManager : MonoBehaviour {
 
 		// ジャンプ処理
 		if (goJump) {
-			audioSource.PlayOneShot (jumpSe);
-			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * JUMP_POWER);
-			goJump = false;
-			status = Statuses.Jumping;
+			Jump ();
 		} else if (goWallRightJump) {
 			audioSource.PlayOneShot (jumpSe);
 			newVelocity.y = 0;
@@ -179,6 +175,17 @@ public class PlayerManager : MonoBehaviour {
 		} else if (canWallLeftJump) {
 			goWallLeftJump = true;
 		}
+	}
+
+	public void Jump () {
+		var newVelocity = rbody.velocity;
+		audioSource.PlayOneShot (jumpSe);
+		newVelocity.y = 0;
+		rbody.AddForce (Vector2.up * JUMP_POWER);
+		goJump = false;
+		status = Statuses.Jumping;
+
+		rbody.velocity = newVelocity;
 	}
 
 	public void StepBack (MoveDirection direction) {
