@@ -20,6 +20,10 @@ public class PlayerManager : MonoBehaviour {
 	private bool canMove = false;
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private const float JUMP_POWER = 300;			// ジャンプ力
+	private Vector2 stepBackDir = new Vector2(1.0f, 0.5f);
+	private const float STEP_BACK_POWER = 150.0f; // 後ずさる力
+	private const float STEP_BACK_SPEED = 3.0f; // 後ずさる速さ
+	private MoveDirection goStepBack = MoveDirection.Stop;	// 飛び退ったか否か
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
 	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
@@ -114,6 +118,13 @@ public class PlayerManager : MonoBehaviour {
 			status = Statuses.Jumping;
 		}
 
+		// 飛び退り処理
+		if (goStepBack != MoveDirection.Stop) {
+			StepBack(goStepBack);
+
+			goStepBack = MoveDirection.Stop;
+		}
+
 		// 移動速度設定
 		rbody.velocity = newVelocity;
 
@@ -125,8 +136,8 @@ public class PlayerManager : MonoBehaviour {
 
 		switch(collidedGameObject.tag) {
 			case "Bullet":
+				goStepBack = collidedGameObject.transform.position.x - transform.position.x <= 0 ? MoveDirection.Right : MoveDirection.Left;
 				Destroy(collidedGameObject);
-				BePushedBack ();
 				break;
 			case "Trap":
 				gameManager.GetComponent<GameManager> ().GameOver ();
@@ -170,15 +181,26 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-	public void BePushedBack () {
-		// 処理
-		Debug.Log("hit");
+	public void StepBack (MoveDirection direction) {
+	// おどろいて後ろに飛び退る
+		transform.localScale = new Vector2 ((int)direction * -1, 1);
+
+		if (CheckOnGround()) {
+			// 少し浮かせないと摩擦で後ろに飛ばない
+			var currentPosition = transform.position;
+			transform.position = new Vector2(currentPosition.x, currentPosition.y + 0.1f);
+
+			var v = new Vector2((float)direction * stepBackDir.x, stepBackDir.y);
+			rbody.AddForce(v * STEP_BACK_POWER);
+		}
+		status = Statuses.BeingPushedBack;
+
+		animator.SetInteger("status", (int)status);
 	}
 
 	private void CheckJumpAvailablity () {
 		// ジャンプ可能か
-		canJump = Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
-			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
+		canJump = CheckOnGround();
 
 		// 壁ジャンプ可能か
 		Vector3 startOffset = transform.right * 0.6f;
@@ -192,5 +214,10 @@ public class PlayerManager : MonoBehaviour {
 			transform.position - startOffset,
 			transform.position - startOffset + endOffset,
 			blockLayer);
+	}
+
+	private bool CheckOnGround () {
+		return Physics2D.Linecast (transform.position - (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer)
+			|| Physics2D.Linecast (transform.position + (transform.right * 0.2f), transform.position - (transform.up * 0.1f), blockLayer);
 	}
 }
