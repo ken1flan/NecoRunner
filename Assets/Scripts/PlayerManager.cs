@@ -218,6 +218,9 @@ public class PlayerManager : MonoBehaviour {
 
 			var v = new Vector2((float)direction * stepBackDir.x, stepBackDir.y);
 			rbody.AddForce(v * STEP_BACK_POWER);
+		} else {
+			var currentPosition = transform.position;
+			transform.position = new Vector2(currentPosition.x / 2, currentPosition.y);
 		}
 		status = Statuses.StepingBack;
 
