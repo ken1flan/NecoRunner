@@ -26,9 +26,9 @@ public class PlayerManager : MonoBehaviour {
 	private Vector2 stepBackDir = new Vector2(1.0f, 0.5f);
 	private const float STEP_BACK_POWER = 150.0f; // 後ずさる力
 	private MoveDirection goStepBack = MoveDirection.Stop;	// 飛び退ったか否か
-	private bool canJump = false;			// ジャンプが可能か
-	private bool canWallLeftJump = false;	// 左壁ジャンプが可能か
-	private bool canWallRightJump = false;	// 右壁ジャンプが可能か
+	private bool onGround = false;			// 地面に触れているか
+	private bool touchingLeftWall = false;	// 左壁に触れているか
+	private bool touchingRightWall = false;	// 右壁に触れているか
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private bool goJump = false;			// ジャンプしたか否か
 	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
@@ -78,7 +78,7 @@ public class PlayerManager : MonoBehaviour {
 		var newVelocity = rbody.velocity;
 
 		// 移動処理
-		if (canJump) {
+		if (onGround) {
 			switch (moveDirection) {
 			case MoveDirection.Left:
 			case MoveDirection.Right:
@@ -151,11 +151,11 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushJumpButton () {
-		if (canJump) {
+		if (onGround) {
 			goJump = true;
-		} else if (canWallRightJump) {
+		} else if (touchingRightWall) {
 			goWallRightJump = true;
-		} else if (canWallLeftJump) {
+		} else if (touchingLeftWall) {
 			goWallLeftJump = true;
 		}
 	}
@@ -219,17 +219,17 @@ public class PlayerManager : MonoBehaviour {
 
 	private void CheckJumpAvailablity () {
 		// ジャンプ可能か
-		canJump = CheckOnGround();
+		onGround = CheckOnGround();
 
 		// 壁ジャンプ可能か
 		Vector3 startOffset = transform.right * 0.6f;
 		Vector3 endOffset = transform.up * 1.5f;
-		canWallRightJump = !canJump && Physics2D.Linecast (
+		touchingRightWall = !onGround && Physics2D.Linecast (
 			transform.position + startOffset,
 			transform.position + startOffset + endOffset,
 			blockLayer);
 
-		canWallLeftJump = !canJump && Physics2D.Linecast (
+		touchingLeftWall = !onGround && Physics2D.Linecast (
 			transform.position - startOffset,
 			transform.position - startOffset + endOffset,
 			blockLayer);
