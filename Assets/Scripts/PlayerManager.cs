@@ -82,17 +82,15 @@ public class PlayerManager : MonoBehaviour {
 			switch (moveDirection) {
 			case MoveDirection.Left:
 			case MoveDirection.Right:
-				newVelocity.x = (int)moveDirection * MOVE_SPEED;
-				transform.localScale = new Vector2 ((int)moveDirection, 1);
-				status = Statuses.Running;
+				Walk(moveDirection);
 				break;
 			default:
 				newVelocity.x = 0;
 				status = Statuses.Standing;
+				// 移動速度設定
+				rbody.velocity = newVelocity;
 				break;
 			}
-			// 移動速度設定
-			rbody.velocity = newVelocity;
 		}
 
 		// ジャンプ処理
@@ -163,6 +161,14 @@ public class PlayerManager : MonoBehaviour {
 		} else if (canWallLeftJump) {
 			goWallLeftJump = true;
 		}
+	}
+
+	public void Walk (MoveDirection dir) {
+		var newVelocity = rbody.velocity;
+		newVelocity.x = (int)dir * MOVE_SPEED;
+		transform.localScale = new Vector2 ((int)dir, 1);
+		status = Statuses.Running;
+		rbody.velocity = newVelocity;
 	}
 
 	public void Jump () {
