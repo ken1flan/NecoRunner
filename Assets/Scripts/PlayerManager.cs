@@ -7,6 +7,9 @@ public class PlayerManager : MonoBehaviour {
 	public LayerMask blockLayer;	// ブロックレイヤ
 	public GameObject gameManager;	// ゲームマネージャ
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
+	private AudioSource audioSource;		// オーディオソース
+	private Animator animator;
+	public AudioClip jumpSe;				// ジャンプSE
 
 	public enum Statuses {
 		WaitingStart = 0,
@@ -16,26 +19,21 @@ public class PlayerManager : MonoBehaviour {
 		BeingPushedBack = 4
 	}
 	public Statuses status = Statuses.WaitingStart;
-	private const float MOVE_SPEED = 3;	// スピード
 
 	public enum MoveDirection { Right = 1, Stop = 0, Left = -1 };
-	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
+	private const float MOVE_SPEED = 3;	// スピード
 	private const float JUMP_POWER = 300;			// ジャンプ力
 	private Vector2 stepBackDir = new Vector2(1.0f, 0.5f);
 	private const float STEP_BACK_POWER = 150.0f; // 後ずさる力
-	private const float STEP_BACK_SPEED = 3.0f; // 後ずさる速さ
 	private MoveDirection goStepBack = MoveDirection.Stop;	// 飛び退ったか否か
-	private bool goJump = false;			// ジャンプしたか否か
 	private bool canJump = false;			// ジャンプが可能か
-	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
-	private bool canWallRightJump = false;	// 右壁ジャンプが可能か
-	private bool goWallLeftJump = false;	// 左壁ジャンプしたか否か
 	private bool canWallLeftJump = false;	// 左壁ジャンプが可能か
+	private bool canWallRightJump = false;	// 右壁ジャンプが可能か
+	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
+	private bool goJump = false;			// ジャンプしたか否か
+	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
+	private bool goWallLeftJump = false;	// 左壁ジャンプしたか否か
 	private bool usingButtons = false;		// ボタンを利用中か
-
-	private AudioSource audioSource;		// オーディオソース
-	public AudioClip jumpSe;				// ジャンプSE
-	private Animator animator;
 
 	// Use this for initialization
 	void Start () {
