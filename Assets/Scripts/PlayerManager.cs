@@ -74,6 +74,21 @@ public class PlayerManager : MonoBehaviour {
 			return;
 		}
 
+		// 飛び退り処理
+		if (status == Statuses.StepingBack) {
+			if (onGround) {
+				status = Statuses.Standing;
+			} else {
+				return;
+			}
+		}
+		if (goStepBack != MoveDirection.Stop) {
+			StepBack(goStepBack);
+
+			animator.SetInteger("status", (int)status);
+			return;
+		}
+
 		// 現在のスピード
 		var newVelocity = rbody.velocity;
 
@@ -98,14 +113,6 @@ public class PlayerManager : MonoBehaviour {
 		} else if (goWallLeftJump) {
 			WallJump(MoveDirection.Right);
 		}
-
-		// 飛び退り処理
-		if (goStepBack != MoveDirection.Stop) {
-			StepBack(goStepBack);
-
-			goStepBack = MoveDirection.Stop;
-		}
-
 
 		animator.SetInteger("status", (int)status);
 	}
@@ -214,7 +221,7 @@ public class PlayerManager : MonoBehaviour {
 		}
 		status = Statuses.StepingBack;
 
-		animator.SetInteger("status", (int)status);
+		goStepBack = MoveDirection.Stop;
 	}
 
 	private void CheckJumpAvailablity () {
