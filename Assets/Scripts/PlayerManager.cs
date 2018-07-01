@@ -85,10 +85,7 @@ public class PlayerManager : MonoBehaviour {
 				Walk(moveDirection);
 				break;
 			default:
-				newVelocity.x = 0;
-				status = Statuses.Standing;
-				// 移動速度設定
-				rbody.velocity = newVelocity;
+				Stand();
 				break;
 			}
 		}
@@ -161,6 +158,13 @@ public class PlayerManager : MonoBehaviour {
 		} else if (canWallLeftJump) {
 			goWallLeftJump = true;
 		}
+	}
+
+	public void Stand () {
+		var newVelocity = rbody.velocity;
+		newVelocity.x = 0;
+		status = Statuses.Standing;
+		rbody.velocity = newVelocity;
 	}
 
 	public void Walk (MoveDirection dir) {
