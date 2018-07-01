@@ -91,27 +91,17 @@ public class PlayerManager : MonoBehaviour {
 				status = Statuses.Standing;
 				break;
 			}
+			// 移動速度設定
+			rbody.velocity = newVelocity;
 		}
 
 		// ジャンプ処理
 		if (goJump) {
 			Jump ();
 		} else if (goWallRightJump) {
-			audioSource.PlayOneShot (jumpSe);
-			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * JUMP_POWER);
-			goWallRightJump = false;
-			newVelocity.x = -MOVE_SPEED;
-			transform.localScale = new Vector2 (-1, 1);
-			status = Statuses.Jumping;
+			WallJump(MoveDirection.Left);
 		} else if (goWallLeftJump) {
-			audioSource.PlayOneShot (jumpSe);
-			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * JUMP_POWER);
-			goWallLeftJump = false;
-			newVelocity.x = MOVE_SPEED;
-			transform.localScale = new Vector2 (1, 1);
-			status = Statuses.Jumping;
+			WallJump(MoveDirection.Right);
 		}
 
 		// 飛び退り処理
@@ -121,8 +111,6 @@ public class PlayerManager : MonoBehaviour {
 			goStepBack = MoveDirection.Stop;
 		}
 
-		// 移動速度設定
-		rbody.velocity = newVelocity;
 
 		animator.SetInteger("status", (int)status);
 	}
@@ -185,6 +173,20 @@ public class PlayerManager : MonoBehaviour {
 		goJump = false;
 		status = Statuses.Jumping;
 
+		rbody.velocity = newVelocity;
+	}
+
+	public void WallJump (MoveDirection dir) {
+		audioSource.PlayOneShot (jumpSe);
+		var newVelocity = rbody.velocity;
+		newVelocity.y = 0;
+		rbody.AddForce (Vector2.up * JUMP_POWER);
+		// FIX
+		goWallRightJump = false;
+		goWallLeftJump = false;
+		newVelocity.x = (int)dir * MOVE_SPEED;
+		transform.localScale = new Vector2 ((int)dir, 1);
+		status = Statuses.Jumping;
 		rbody.velocity = newVelocity;
 	}
 
