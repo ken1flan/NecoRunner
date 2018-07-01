@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Reflection;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,16 +9,16 @@ public class PlayerManager : MonoBehaviour {
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 
 	public enum Statuses {
+		WaitingStart = 0,
 		Standing = 1,
 		Running = 2,
 		Jumping = 3,
 		BeingPushedBack = 4
 	}
-	public Statuses status = Statuses.Standing;
+	public Statuses status = Statuses.WaitingStart;
 	private const float MOVE_SPEED = 3;	// スピード
 
 	public enum MoveDirection { Right = 1, Stop = 0, Left = -1 };
-	private bool canMove = false;
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private const float JUMP_POWER = 300;			// ジャンプ力
 	private Vector2 stepBackDir = new Vector2(1.0f, 0.5f);
@@ -38,6 +39,7 @@ public class PlayerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		status = Statuses.WaitingStart;
 		rbody = GetComponent<Rigidbody2D> ();
 
 		// オーディオソースの設定
@@ -70,7 +72,7 @@ public class PlayerManager : MonoBehaviour {
 
 	// 固定更新処理
 	void FixedUpdate () {
-		if (!canMove) {
+		if (status == Statuses.WaitingStart) {
 			return;
 		}
 
@@ -133,7 +135,7 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void StartGame () {
-		canMove = true;
+		status = Statuses.Standing;
 	}
 
 	public void PushLeftButton () {
