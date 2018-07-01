@@ -16,7 +16,7 @@ public class PlayerManager : MonoBehaviour {
 		Standing = 1,
 		Running = 2,
 		Jumping = 3,
-		BeingPushedBack = 4
+		StepingBack = 4
 	}
 	public Statuses status = Statuses.WaitingStart;
 
@@ -212,7 +212,7 @@ public class PlayerManager : MonoBehaviour {
 			var v = new Vector2((float)direction * stepBackDir.x, stepBackDir.y);
 			rbody.AddForce(v * STEP_BACK_POWER);
 		}
-		status = Statuses.BeingPushedBack;
+		status = Statuses.StepingBack;
 
 		animator.SetInteger("status", (int)status);
 	}
