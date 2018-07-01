@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Reflection;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,38 +7,37 @@ public class PlayerManager : MonoBehaviour {
 	public LayerMask blockLayer;	// ブロックレイヤ
 	public GameObject gameManager;	// ゲームマネージャ
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
+	private AudioSource audioSource;		// オーディオソース
+	private Animator animator;
+	public AudioClip jumpSe;				// ジャンプSE
 
 	public enum Statuses {
+		WaitingStart = 0,
 		Standing = 1,
 		Running = 2,
 		Jumping = 3,
-		BeingPushedBack = 4
+		StepingBack = 4
 	}
-	public Statuses status = Statuses.Standing;
-	private const float MOVE_SPEED = 3;	// スピード
+	public Statuses status = Statuses.WaitingStart;
 
 	public enum MoveDirection { Right = 1, Stop = 0, Left = -1 };
-	private bool canMove = false;
-	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
+	private const float MOVE_SPEED = 3;	// スピード
 	private const float JUMP_POWER = 300;			// ジャンプ力
 	private Vector2 stepBackDir = new Vector2(1.0f, 0.5f);
 	private const float STEP_BACK_POWER = 150.0f; // 後ずさる力
-	private const float STEP_BACK_SPEED = 3.0f; // 後ずさる速さ
 	private MoveDirection goStepBack = MoveDirection.Stop;	// 飛び退ったか否か
+	private bool onGround = false;			// 地面に触れているか
+	private bool touchingLeftWall = false;	// 左壁に触れているか
+	private bool touchingRightWall = false;	// 右壁に触れているか
+	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private bool goJump = false;			// ジャンプしたか否か
-	private bool canJump = false;			// ジャンプが可能か
 	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
-	private bool canWallRightJump = false;	// 右壁ジャンプが可能か
 	private bool goWallLeftJump = false;	// 左壁ジャンプしたか否か
-	private bool canWallLeftJump = false;	// 左壁ジャンプが可能か
 	private bool usingButtons = false;		// ボタンを利用中か
-
-	private AudioSource audioSource;		// オーディオソース
-	public AudioClip jumpSe;				// ジャンプSE
-	private Animator animator;
 
 	// Use this for initialization
 	void Start () {
+		status = Statuses.WaitingStart;
 		rbody = GetComponent<Rigidbody2D> ();
 
 		// オーディオソースの設定
@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour {
 
 	// 固定更新処理
 	void FixedUpdate () {
-		if (!canMove) {
+		if (status == Statuses.WaitingStart) {
 			return;
 		}
 
@@ -78,44 +78,25 @@ public class PlayerManager : MonoBehaviour {
 		var newVelocity = rbody.velocity;
 
 		// 移動処理
-		if (canJump) {
+		if (onGround) {
 			switch (moveDirection) {
 			case MoveDirection.Left:
 			case MoveDirection.Right:
-				newVelocity.x = (int)moveDirection * MOVE_SPEED;
-				transform.localScale = new Vector2 ((int)moveDirection, 1);
-				status = Statuses.Running;
+				Walk(moveDirection);
 				break;
 			default:
-				newVelocity.x = 0;
-				status = Statuses.Standing;
+				Stand();
 				break;
 			}
 		}
 
 		// ジャンプ処理
 		if (goJump) {
-			audioSource.PlayOneShot (jumpSe);
-			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * JUMP_POWER);
-			goJump = false;
-			status = Statuses.Jumping;
+			Jump ();
 		} else if (goWallRightJump) {
-			audioSource.PlayOneShot (jumpSe);
-			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * JUMP_POWER);
-			goWallRightJump = false;
-			newVelocity.x = -MOVE_SPEED;
-			transform.localScale = new Vector2 (-1, 1);
-			status = Statuses.Jumping;
+			WallJump(MoveDirection.Left);
 		} else if (goWallLeftJump) {
-			audioSource.PlayOneShot (jumpSe);
-			newVelocity.y = 0;
-			rbody.AddForce (Vector2.up * JUMP_POWER);
-			goWallLeftJump = false;
-			newVelocity.x = MOVE_SPEED;
-			transform.localScale = new Vector2 (1, 1);
-			status = Statuses.Jumping;
+			WallJump(MoveDirection.Right);
 		}
 
 		// 飛び退り処理
@@ -125,8 +106,6 @@ public class PlayerManager : MonoBehaviour {
 			goStepBack = MoveDirection.Stop;
 		}
 
-		// 移動速度設定
-		rbody.velocity = newVelocity;
 
 		animator.SetInteger("status", (int)status);
 	}
@@ -154,7 +133,7 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void StartGame () {
-		canMove = true;
+		status = Statuses.Standing;
 	}
 
 	public void PushLeftButton () {
@@ -172,13 +151,53 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushJumpButton () {
-		if (canJump) {
+		if (onGround) {
 			goJump = true;
-		} else if (canWallRightJump) {
+		} else if (touchingRightWall) {
 			goWallRightJump = true;
-		} else if (canWallLeftJump) {
+		} else if (touchingLeftWall) {
 			goWallLeftJump = true;
 		}
+	}
+
+	public void Stand () {
+		var newVelocity = rbody.velocity;
+		newVelocity.x = 0;
+		status = Statuses.Standing;
+		rbody.velocity = newVelocity;
+	}
+
+	public void Walk (MoveDirection dir) {
+		var newVelocity = rbody.velocity;
+		newVelocity.x = (int)dir * MOVE_SPEED;
+		transform.localScale = new Vector2 ((int)dir, 1);
+		status = Statuses.Running;
+		rbody.velocity = newVelocity;
+	}
+
+	public void Jump () {
+		var newVelocity = rbody.velocity;
+		audioSource.PlayOneShot (jumpSe);
+		newVelocity.y = 0;
+		rbody.AddForce (Vector2.up * JUMP_POWER);
+		goJump = false;
+		status = Statuses.Jumping;
+
+		rbody.velocity = newVelocity;
+	}
+
+	public void WallJump (MoveDirection dir) {
+		audioSource.PlayOneShot (jumpSe);
+		var newVelocity = rbody.velocity;
+		newVelocity.y = 0;
+		rbody.AddForce (Vector2.up * JUMP_POWER);
+		// FIX
+		goWallRightJump = false;
+		goWallLeftJump = false;
+		newVelocity.x = (int)dir * MOVE_SPEED;
+		transform.localScale = new Vector2 ((int)dir, 1);
+		status = Statuses.Jumping;
+		rbody.velocity = newVelocity;
 	}
 
 	public void StepBack (MoveDirection direction) {
@@ -193,24 +212,24 @@ public class PlayerManager : MonoBehaviour {
 			var v = new Vector2((float)direction * stepBackDir.x, stepBackDir.y);
 			rbody.AddForce(v * STEP_BACK_POWER);
 		}
-		status = Statuses.BeingPushedBack;
+		status = Statuses.StepingBack;
 
 		animator.SetInteger("status", (int)status);
 	}
 
 	private void CheckJumpAvailablity () {
 		// ジャンプ可能か
-		canJump = CheckOnGround();
+		onGround = CheckOnGround();
 
 		// 壁ジャンプ可能か
 		Vector3 startOffset = transform.right * 0.6f;
 		Vector3 endOffset = transform.up * 1.5f;
-		canWallRightJump = !canJump && Physics2D.Linecast (
+		touchingRightWall = !onGround && Physics2D.Linecast (
 			transform.position + startOffset,
 			transform.position + startOffset + endOffset,
 			blockLayer);
 
-		canWallLeftJump = !canJump && Physics2D.Linecast (
+		touchingLeftWall = !onGround && Physics2D.Linecast (
 			transform.position - startOffset,
 			transform.position - startOffset + endOffset,
 			blockLayer);
