@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	private string sceneName;	// シーン名
 
-	public GameObject panelGameStart;		// ゲーム開始パネル
-	public GameObject panelGameEnd;		// ゲームエンドパネル
 	public GameObject buttons;			// 操作ボタン
 	public GameObject textTime;			// タイム表示
 	public GameObject textBestTime;		// ベストタイム
@@ -16,6 +14,7 @@ public class GameManager : MonoBehaviour {
 	private PlayerManager player;			// プレイヤー
 	private AudioSource audioSource;	// オーディオソース
 
+	private PanelGameStartManager panelGameStartManager;
 	private PanelGameEndManager panelGameEndManager;
 	private float time = 0;			// 現在の経過時間
 	public enum STATUS {
@@ -46,9 +45,12 @@ public class GameManager : MonoBehaviour {
 		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
 
 		// 開始パネル設定
-		panelGameStart.GetComponent<PanelGameStartManager> ().SetConfigurations(audioSource, OnCompleteGameStartPanel);
+		panelGameStartManager = GameObject.Find("PanelGameStart").GetComponent<PanelGameStartManager> ();
+		panelGameStartManager.SetConfigurations(audioSource, OnCompleteGameStartPanel);
 
-		panelGameEndManager = panelGameEnd.GetComponent<PanelGameEndManager> ();
+		// 終了パネル設定
+		var canvasUi = GameObject.Find("CanvasUI");
+		panelGameEndManager = canvasUi.transform.Find("PanelGameEnd").gameObject.GetComponent<PanelGameEndManager> ();
 
 		// プレイヤーの取得
 		player =  GameObject.Find("Player").GetComponent<PlayerManager> ();
