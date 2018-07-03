@@ -7,15 +7,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	public string sceneName;	// シーン名
 
-	public GameObject playerObject;		// プレイヤーのゲームオブジェクト
-
 	public GameObject panelGameStart;		// ゲーム開始パネル
 	public GameObject panelGameEnd;		// ゲームエンドパネル
 	public GameObject buttons;			// 操作ボタン
 	public GameObject textTime;			// タイム表示
 	public GameObject textBestTime;		// ベストタイム
 
-	private PlayerProxy player;			// プレイヤー
+	private PlayerManager player;			// プレイヤー
 	private AudioSource audioSource;	// オーディオソース
 
 	private PanelGameEndManager panelGameEndManager;
@@ -53,7 +51,7 @@ public class GameManager : MonoBehaviour {
 		panelGameEndManager = panelGameEnd.GetComponent<PanelGameEndManager> ();
 
 		// プレイヤーの取得
-		player = playerObject.GetComponent <PlayerProxy> ();
+		player =  GameObject.Find("Player").GetComponent<PlayerManager> ();
 	}
 
 	// Update is called once per frame
