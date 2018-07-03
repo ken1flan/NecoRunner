@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-	public string sceneName;	// シーン名
+	private string sceneName;	// シーン名
 
 	public GameObject panelGameStart;		// ゲーム開始パネル
 	public GameObject panelGameEnd;		// ゲームエンドパネル
