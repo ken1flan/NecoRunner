@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	private string sceneName;	// シーン名
 
-	public GameObject buttons;			// 操作ボタン
+	private GameObject buttons;			// 操作ボタン
 	public GameObject textTime;			// タイム表示
 	public GameObject textBestTime;		// ベストタイム
 
@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour {
 
 		// プレイヤーの取得
 		player =  GameObject.Find("Player").GetComponent<PlayerManager> ();
+
+		// ボタンの取得
+		buttons = GameObject.Find("Buttons");
 	}
 
 	// Update is called once per frame
