@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	private string sceneName;	// シーン名
 
-	private GameObject buttons;			// 操作ボタン
-	public GameObject textTime;			// タイム表示
-	public GameObject textBestTime;		// ベストタイム
+	private GameObject buttons	;			// 操作ボタン
+	private Text textTime;						// タイム表示
+	private Text textBestTime;				// ベストタイム
 
 	private PlayerManager player;			// プレイヤー
 	private AudioSource audioSource;	// オーディオソース
@@ -41,8 +41,11 @@ public class GameManager : MonoBehaviour {
 		audioSource.Stop ();
 
 		// ベストタイム読み込み
+		textTime = GameObject.Find("TextTime").GetComponent<Text> ();
+		textBestTime = GameObject.Find("TextBestTime").GetComponent<Text> ();
+
 		var bestTime = BestTime ();
-		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
+		textBestTime.text = bestTime.ToString ("Best ###0.00 Sec");
 
 		// 開始パネル設定
 		panelGameStartManager = GameObject.Find("PanelGameStart").GetComponent<PanelGameStartManager> ();
@@ -64,9 +67,8 @@ public class GameManager : MonoBehaviour {
 		if (status == STATUS.PLAYING) {
 			time += Time.deltaTime;
 			string newTimeString = time.ToString ("###0.00 Sec");
-			var textComponent = textTime.GetComponent<Text> ();
-			if (textComponent.text != newTimeString) {
-				textComponent.text = newTimeString;
+			if (textTime.text != newTimeString) {
+				textTime.text = newTimeString;
 			}
 		}
 	}
