@@ -17,13 +17,13 @@ public class GameManager : MonoBehaviour {
 	private PanelGameStartManager panelGameStartManager;
 	private PanelGameEndManager panelGameEndManager;
 	private float time = 0;			// 現在の経過時間
-	public enum STATUS {
-		STARTING,
-		PLAYING,
-		GAMEOVER,
-		GAMECLEAR,
+	public enum Statuses {
+		Starting,
+		Playing,
+		GameOver,
+		GameClear,
 	};
-	private STATUS status = STATUS.STARTING;
+	private Statuses status = Statuses.Starting;
 
 	// 保存用キー
 	private const string SAVE_KEY_FORMAT_BEST_TIME = "BEST_TIME_{0}";	// ベストタイム
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (status == STATUS.PLAYING) {
+		if (status == Statuses.Playing) {
 			time += Time.deltaTime;
 			string newTimeString = time.ToString ("###0.00 Sec");
 			if (textTime.text != newTimeString) {
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour {
 
 	// ゲーム開始パネルの表示完了後処理
 	public void OnCompleteGameStartPanel () {
-		status = STATUS.PLAYING;
+		status = Statuses.Playing;
 		time = 0;
 		audioSource.Play();
 		player.StartGame ();
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームオーバー処理
 	public void GameOver () {
-		status = STATUS.GAMEOVER;
+		status = Statuses.GameOver;
 		// BGMを止める
 		audioSource.Stop ();
 
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームクリア処理
 	public void GameClear () {
-		status = STATUS.GAMECLEAR;
+		status = Statuses.GameClear;
 		audioSource.Stop ();
 		panelGameEndManager.GameClear ();
 
