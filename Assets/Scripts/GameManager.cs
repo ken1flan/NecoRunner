@@ -5,28 +5,25 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-	public string sceneName;	// シーン名
+	private string sceneName;	// シーン名
 
-	public GameObject playerObject;		// プレイヤーのゲームオブジェクト
+	private GameObject buttons	;			// 操作ボタン
+	private Text textTime;						// タイム表示
+	private Text textBestTime;				// ベストタイム
 
-	public GameObject panelGameStart;		// ゲーム開始パネル
-	public GameObject panelGameEnd;		// ゲームエンドパネル
-	public GameObject buttons;			// 操作ボタン
-	public GameObject textTime;			// タイム表示
-	public GameObject textBestTime;		// ベストタイム
-
-	private PlayerProxy player;			// プレイヤー
+	private PlayerManager player;			// プレイヤー
 	private AudioSource audioSource;	// オーディオソース
 
+	private PanelGameStartManager panelGameStartManager;
 	private PanelGameEndManager panelGameEndManager;
 	private float time = 0;			// 現在の経過時間
-	public enum STATUS {
-		STARTING,
-		PLAYING,
-		GAMEOVER,
-		GAMECLEAR,
+	public enum Statuses {
+		Starting,
+		Playing,
+		GameOver,
+		GameClear,
 	};
-	private STATUS status = STATUS.STARTING;
+	private Statuses status = Statuses.Starting;
 
 	// 保存用キー
 	private const string SAVE_KEY_FORMAT_BEST_TIME = "BEST_TIME_{0}";	// ベストタイム
@@ -44,33 +41,41 @@ public class GameManager : MonoBehaviour {
 		audioSource.Stop ();
 
 		// ベストタイム読み込み
+		textTime = GameObject.Find("TextTime").GetComponent<Text> ();
+		textBestTime = GameObject.Find("TextBestTime").GetComponent<Text> ();
+
 		var bestTime = BestTime ();
-		textBestTime.GetComponent<Text> ().text = bestTime.ToString ("Best ###0.00 Sec");
+		textBestTime.text = bestTime.ToString ("Best ###0.00 Sec");
 
 		// 開始パネル設定
-		panelGameStart.GetComponent<PanelGameStartManager> ().SetConfigurations(audioSource, OnCompleteGameStartPanel);
+		panelGameStartManager = GameObject.Find("PanelGameStart").GetComponent<PanelGameStartManager> ();
+		panelGameStartManager.SetConfigurations(audioSource, OnCompleteGameStartPanel);
 
-		panelGameEndManager = panelGameEnd.GetComponent<PanelGameEndManager> ();
+		// 終了パネル設定
+		var canvasUi = GameObject.Find("CanvasUI");
+		panelGameEndManager = canvasUi.transform.Find("PanelGameEnd").gameObject.GetComponent<PanelGameEndManager> ();
 
 		// プレイヤーの取得
-		player = playerObject.GetComponent <PlayerProxy> ();
+		player =  GameObject.Find("Player").GetComponent<PlayerManager> ();
+
+		// ボタンの取得
+		buttons = GameObject.Find("Buttons");
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (status == STATUS.PLAYING) {
+		if (status == Statuses.Playing) {
 			time += Time.deltaTime;
 			string newTimeString = time.ToString ("###0.00 Sec");
-			var textComponent = textTime.GetComponent<Text> ();
-			if (textComponent.text != newTimeString) {
-				textComponent.text = newTimeString;
+			if (textTime.text != newTimeString) {
+				textTime.text = newTimeString;
 			}
 		}
 	}
 
 	// ゲーム開始パネルの表示完了後処理
 	public void OnCompleteGameStartPanel () {
-		status = STATUS.PLAYING;
+		status = Statuses.Playing;
 		time = 0;
 		audioSource.Play();
 		player.StartGame ();
@@ -79,7 +84,7 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームオーバー処理
 	public void GameOver () {
-		status = STATUS.GAMEOVER;
+		status = Statuses.GameOver;
 		// BGMを止める
 		audioSource.Stop ();
 
@@ -89,7 +94,7 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームクリア処理
 	public void GameClear () {
-		status = STATUS.GAMECLEAR;
+		status = Statuses.GameClear;
 		audioSource.Stop ();
 		panelGameEndManager.GameClear ();
 
