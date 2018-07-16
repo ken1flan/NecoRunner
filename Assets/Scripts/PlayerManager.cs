@@ -31,8 +31,6 @@ public class PlayerManager : MonoBehaviour {
 	private bool touchingRightWall = false;	// 右壁に触れているか
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private bool goJump = false;			// ジャンプしたか否か
-	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
-	private bool goWallLeftJump = false;	// 左壁ジャンプしたか否か
 	private bool usingButtons = false;		// ボタンを利用中か
 
 	// Use this for initialization
@@ -107,11 +105,16 @@ public class PlayerManager : MonoBehaviour {
 
 		// ジャンプ処理
 		if (goJump) {
-			Jump ();
-		} else if (goWallRightJump) {
-			WallJump(MoveDirection.Left);
-		} else if (goWallLeftJump) {
-			WallJump(MoveDirection.Right);
+			if (onGround) {
+				Jump ();
+			} else if (touchingRightWall) {
+				WallJump(MoveDirection.Left);
+			} else if (touchingLeftWall) {
+				WallJump(MoveDirection.Right);
+			} else {
+				// なにもしない
+			}
+			goJump = false;
 		}
 
 		animator.SetInteger("status", (int)status);
@@ -158,14 +161,7 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushJumpButton () {
-		// FIXME: ボタン操作のところではフラグをセットするだけにして、判断はUpdate系の中で一回だけするようにしたい
-		if (onGround) {
-			goJump = true;
-		} else if (touchingRightWall) {
-			goWallRightJump = true;
-		} else if (touchingLeftWall) {
-			goWallLeftJump = true;
-		}
+		goJump = true;
 	}
 
 	public void Stand () {
@@ -188,7 +184,6 @@ public class PlayerManager : MonoBehaviour {
 		audioSource.PlayOneShot (jumpSe);
 		newVelocity.y = 0;
 		rbody.AddForce (Vector2.up * JUMP_POWER);
-		goJump = false;
 		status = Statuses.Jumping;
 
 		rbody.velocity = newVelocity;
@@ -200,8 +195,6 @@ public class PlayerManager : MonoBehaviour {
 		newVelocity.y = 0;
 		rbody.AddForce (Vector2.up * JUMP_POWER);
 		// FIX
-		goWallRightJump = false;
-		goWallLeftJump = false;
 		newVelocity.x = (int)dir * MOVE_SPEED;
 		transform.localScale = new Vector2 ((int)dir, 1);
 		status = Statuses.Jumping;
