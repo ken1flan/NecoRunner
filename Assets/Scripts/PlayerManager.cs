@@ -158,6 +158,7 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void PushJumpButton () {
+		// FIXME: ボタン操作のところではフラグをセットするだけにして、判断はUpdate系の中で一回だけするようにしたい
 		if (onGround) {
 			goJump = true;
 		} else if (touchingRightWall) {
