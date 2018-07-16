@@ -21,7 +21,8 @@ public class ButtonManager : MonoBehaviour {
 	}
 
 	private void SetLeftButton () {
-		EventTrigger eventTrigger = transform.Find("ButtonLeft").GetComponent<EventTrigger> ();
+		var button = transform.Find("ButtonLeft").gameObject;
+		EventTrigger eventTrigger = button.AddComponent(typeof(EventTrigger)) as EventTrigger;
 
 		EventTrigger.Entry pushButtonEntry = new EventTrigger.Entry();
 		pushButtonEntry.eventID = EventTriggerType.PointerDown;
@@ -35,7 +36,8 @@ public class ButtonManager : MonoBehaviour {
 	}
 
 	private void SetRightButton () {
-		EventTrigger eventTrigger = transform.Find("ButtonRight").GetComponent<EventTrigger> ();
+		var button = transform.Find("ButtonRight").gameObject;
+		EventTrigger eventTrigger = button.AddComponent(typeof(EventTrigger)) as EventTrigger;
 
 		EventTrigger.Entry pushButtonEntry = new EventTrigger.Entry();
 		pushButtonEntry.eventID = EventTriggerType.PointerDown;
@@ -49,7 +51,8 @@ public class ButtonManager : MonoBehaviour {
 	}
 
 	private void SetJumpButton () {
-		EventTrigger eventTrigger = transform.Find("ButtonJump").GetComponent<EventTrigger> ();
+		var button = transform.Find("ButtonJump").gameObject;
+		EventTrigger eventTrigger = button.AddComponent(typeof(EventTrigger)) as EventTrigger;
 
 		EventTrigger.Entry pushButtonEntry = new EventTrigger.Entry();
 		pushButtonEntry.eventID = EventTriggerType.PointerDown;
