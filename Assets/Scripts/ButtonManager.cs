@@ -17,7 +17,21 @@ public class ButtonManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// Do nothing
+		float x = Input.GetAxisRaw ("Horizontal");
+
+		if (x == 0) {
+			playerManager.ReleaseMoveButton ();
+		} else {
+			if (x > 0) {
+				playerManager.PushRightButton ();
+			} else {
+				playerManager.PushLeftButton ();
+			}
+		}
+
+		if (Input.GetKeyDown ("space")){
+			playerManager.PushJumpButton ();
+		}
 	}
 
 	private void SetLeftButton () {

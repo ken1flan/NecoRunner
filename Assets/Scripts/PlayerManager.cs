@@ -45,22 +45,6 @@ public class PlayerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		CheckJumpAvailablity();
-
-		float x = Input.GetAxisRaw ("Horizontal");
-
-		if (x == 0) {
-			moveDirection = MoveDirection.Stop;
-		} else {
-			if (x > 0) {
-				moveDirection = MoveDirection.Right;
-			} else {
-				moveDirection = MoveDirection.Left;
-			}
-		}
-
-		if (Input.GetKeyDown ("space")){
-			PushJumpButton ();
-		}
 	}
 
 	// 固定更新処理
