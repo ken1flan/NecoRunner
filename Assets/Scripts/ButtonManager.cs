@@ -20,17 +20,17 @@ public class ButtonManager : MonoBehaviour {
 		float x = Input.GetAxisRaw ("Horizontal");
 
 		if (x == 0) {
-			playerManager.ReleaseMoveButton ();
+			playerManager.StopMoving ();
 		} else {
 			if (x > 0) {
-				playerManager.PushRightButton ();
+				playerManager.GoRight ();
 			} else {
-				playerManager.PushLeftButton ();
+				playerManager.GoLeft ();
 			}
 		}
 
 		if (Input.GetKeyDown ("space")){
-			playerManager.PushJumpButton ();
+			playerManager.GoJump ();
 		}
 	}
 
@@ -40,12 +40,12 @@ public class ButtonManager : MonoBehaviour {
 
 		EventTrigger.Entry pushButtonEntry = new EventTrigger.Entry();
 		pushButtonEntry.eventID = EventTriggerType.PointerDown;
-		pushButtonEntry.callback.AddListener((data) => { playerManager.PushLeftButton(); });
+		pushButtonEntry.callback.AddListener((data) => { playerManager.GoLeft(); });
 		eventTrigger.triggers.Add(pushButtonEntry);
 
 		EventTrigger.Entry releaseButtonEntry = new EventTrigger.Entry();
 		releaseButtonEntry.eventID = EventTriggerType.PointerUp;
-		releaseButtonEntry.callback.AddListener((data) => { playerManager.ReleaseMoveButton(); });
+		releaseButtonEntry.callback.AddListener((data) => { playerManager.StopMoving(); });
 		eventTrigger.triggers.Add(releaseButtonEntry);
 	}
 
@@ -55,12 +55,12 @@ public class ButtonManager : MonoBehaviour {
 
 		EventTrigger.Entry pushButtonEntry = new EventTrigger.Entry();
 		pushButtonEntry.eventID = EventTriggerType.PointerDown;
-		pushButtonEntry.callback.AddListener((data) => { playerManager.PushRightButton(); });
+		pushButtonEntry.callback.AddListener((data) => { playerManager.GoRight(); });
 		eventTrigger.triggers.Add(pushButtonEntry);
 
 		EventTrigger.Entry releaseButtonEntry = new EventTrigger.Entry();
 		releaseButtonEntry.eventID = EventTriggerType.PointerUp;
-		releaseButtonEntry.callback.AddListener((data) => { playerManager.ReleaseMoveButton(); });
+		releaseButtonEntry.callback.AddListener((data) => { playerManager.StopMoving(); });
 		eventTrigger.triggers.Add(releaseButtonEntry);
 	}
 
@@ -70,7 +70,7 @@ public class ButtonManager : MonoBehaviour {
 
 		EventTrigger.Entry pushButtonEntry = new EventTrigger.Entry();
 		pushButtonEntry.eventID = EventTriggerType.PointerDown;
-		pushButtonEntry.callback.AddListener((data) => { playerManager.PushJumpButton(); });
+		pushButtonEntry.callback.AddListener((data) => { playerManager.GoJump(); });
 		eventTrigger.triggers.Add(pushButtonEntry);
 	}
 }

@@ -119,6 +119,7 @@ public class PlayerManager : MonoBehaviour {
 				break;
 		}
 	}
+
 	void DestroyPlayer () {
 		Destroy (this.gameObject);
 	}
@@ -127,19 +128,19 @@ public class PlayerManager : MonoBehaviour {
 		status = Statuses.Standing;
 	}
 
-	public void PushLeftButton () {
+	public void GoLeft () {
 		moveDirection = MoveDirection.Left;
 	}
 
-	public void PushRightButton () {
+	public void GoRight () {
 		moveDirection = MoveDirection.Right;
 	}
 
-	public void ReleaseMoveButton () {
+	public void StopMoving () {
 		moveDirection = MoveDirection.Stop;
 	}
 
-	public void PushJumpButton () {
+	public void GoJump () {
 		goJump = true;
 	}
 
