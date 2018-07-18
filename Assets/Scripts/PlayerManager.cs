@@ -31,9 +31,6 @@ public class PlayerManager : MonoBehaviour {
 	private bool touchingRightWall = false;	// 右壁に触れているか
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private bool goJump = false;			// ジャンプしたか否か
-	private bool goWallRightJump = false;	// 右壁ジャンプしたか否か
-	private bool goWallLeftJump = false;	// 左壁ジャンプしたか否か
-	private bool usingButtons = false;		// ボタンを利用中か
 
 	// Use this for initialization
 	void Start () {
@@ -48,24 +45,6 @@ public class PlayerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		CheckJumpAvailablity();
-
-		if (!usingButtons) {
-			float x = Input.GetAxisRaw ("Horizontal");
-
-			if (x == 0) {
-				moveDirection = MoveDirection.Stop;
-			} else {
-				if (x > 0) {
-					moveDirection = MoveDirection.Right;
-				} else {
-					moveDirection = MoveDirection.Left;
-				}
-			}
-
-			if (Input.GetKeyDown ("space")){
-				PushJumpButton ();
-			}
-		}
 	}
 
 	// 固定更新処理
@@ -107,11 +86,16 @@ public class PlayerManager : MonoBehaviour {
 
 		// ジャンプ処理
 		if (goJump) {
-			Jump ();
-		} else if (goWallRightJump) {
-			WallJump(MoveDirection.Left);
-		} else if (goWallLeftJump) {
-			WallJump(MoveDirection.Right);
+			if (onGround) {
+				Jump ();
+			} else if (touchingRightWall) {
+				WallJump(MoveDirection.Left);
+			} else if (touchingLeftWall) {
+				WallJump(MoveDirection.Right);
+			} else {
+				// なにもしない
+			}
+			goJump = false;
 		}
 
 		animator.SetInteger("status", (int)status);
@@ -135,6 +119,7 @@ public class PlayerManager : MonoBehaviour {
 				break;
 		}
 	}
+
 	void DestroyPlayer () {
 		Destroy (this.gameObject);
 	}
@@ -143,29 +128,20 @@ public class PlayerManager : MonoBehaviour {
 		status = Statuses.Standing;
 	}
 
-	public void PushLeftButton () {
+	public void GoLeft () {
 		moveDirection = MoveDirection.Left;
-		usingButtons = true;
 	}
 
-	public void PushRightButton () {
+	public void GoRight () {
 		moveDirection = MoveDirection.Right;
-		usingButtons = true;
 	}
 
-	public void ReleaseMoveButton () {
+	public void StopMoving () {
 		moveDirection = MoveDirection.Stop;
 	}
 
-	public void PushJumpButton () {
-		// FIXME: ボタン操作のところではフラグをセットするだけにして、判断はUpdate系の中で一回だけするようにしたい
-		if (onGround) {
-			goJump = true;
-		} else if (touchingRightWall) {
-			goWallRightJump = true;
-		} else if (touchingLeftWall) {
-			goWallLeftJump = true;
-		}
+	public void GoJump () {
+		goJump = true;
 	}
 
 	public void Stand () {
@@ -188,7 +164,6 @@ public class PlayerManager : MonoBehaviour {
 		audioSource.PlayOneShot (jumpSe);
 		newVelocity.y = 0;
 		rbody.AddForce (Vector2.up * JUMP_POWER);
-		goJump = false;
 		status = Statuses.Jumping;
 
 		rbody.velocity = newVelocity;
@@ -200,8 +175,6 @@ public class PlayerManager : MonoBehaviour {
 		newVelocity.y = 0;
 		rbody.AddForce (Vector2.up * JUMP_POWER);
 		// FIX
-		goWallRightJump = false;
-		goWallLeftJump = false;
 		newVelocity.x = (int)dir * MOVE_SPEED;
 		transform.localScale = new Vector2 ((int)dir, 1);
 		status = Statuses.Jumping;
