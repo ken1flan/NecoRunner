@@ -31,7 +31,6 @@ public class PlayerManager : MonoBehaviour {
 	private bool touchingRightWall = false;	// 右壁に触れているか
 	private MoveDirection moveDirection = MoveDirection.Stop;	// 移動方向
 	private bool goJump = false;			// ジャンプしたか否か
-	private bool usingButtons = false;		// ボタンを利用中か
 
 	// Use this for initialization
 	void Start () {
@@ -47,22 +46,20 @@ public class PlayerManager : MonoBehaviour {
 	void Update () {
 		CheckJumpAvailablity();
 
-		if (!usingButtons) {
-			float x = Input.GetAxisRaw ("Horizontal");
+		float x = Input.GetAxisRaw ("Horizontal");
 
-			if (x == 0) {
-				moveDirection = MoveDirection.Stop;
+		if (x == 0) {
+			moveDirection = MoveDirection.Stop;
+		} else {
+			if (x > 0) {
+				moveDirection = MoveDirection.Right;
 			} else {
-				if (x > 0) {
-					moveDirection = MoveDirection.Right;
-				} else {
-					moveDirection = MoveDirection.Left;
-				}
+				moveDirection = MoveDirection.Left;
 			}
+		}
 
-			if (Input.GetKeyDown ("space")){
-				PushJumpButton ();
-			}
+		if (Input.GetKeyDown ("space")){
+			PushJumpButton ();
 		}
 	}
 
@@ -148,12 +145,10 @@ public class PlayerManager : MonoBehaviour {
 
 	public void PushLeftButton () {
 		moveDirection = MoveDirection.Left;
-		usingButtons = true;
 	}
 
 	public void PushRightButton () {
 		moveDirection = MoveDirection.Right;
-		usingButtons = true;
 	}
 
 	public void ReleaseMoveButton () {
