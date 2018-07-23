@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour {
 		// BGMは止めて開始
 		audioSource.Stop ();
 
+		// マップ設定
+		var mapGrid = GameObject.Find("MapGrid");
+		mapGrid.AddComponent<MapManager> ();
+
 		// キャンバスUI設定
 		var canvasUi = transform.Find("CanvasUI").gameObject;
 		canvasUi.SetActive(true);
