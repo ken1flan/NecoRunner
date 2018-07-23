@@ -157,15 +157,6 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1496527209}
-    - target: {fileID: 114492857608685420, guid: 0020f8c02b4f84f3eb25d8024d358608,
-        type: 2}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1791952247}
-    - target: {fileID: 1663718404718080, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0020f8c02b4f84f3eb25d8024d358608, type: 2}
   m_IsPrefabParent: 0
@@ -4952,11 +4943,6 @@ MonoBehaviour:
   endXOffset: 25.5
   startYOffset: 4
   endYOffset: 12
---- !u!1 &1791952247 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1662285360881368, guid: 4aa5a981685a743d5832c4388f6b6e38,
-    type: 2}
-  m_PrefabInternal: {fileID: 1083386085}
 --- !u!1 &1832828513
 GameObject:
   m_ObjectHideFlags: 0

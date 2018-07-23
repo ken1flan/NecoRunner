@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour {
 		// BGMは止めて開始
 		audioSource.Stop ();
 
+		// キャンバスUI設定
+		var canvasUi = transform.Find("CanvasUI").gameObject;
+		canvasUi.SetActive(true);
+
 		// ベストタイム読み込み
 		textTime = GameObject.Find("TextTime").GetComponent<Text> ();
 		textBestTime = GameObject.Find("TextBestTime").GetComponent<Text> ();
@@ -52,7 +56,6 @@ public class GameManager : MonoBehaviour {
 		panelGameStartManager.SetConfigurations(audioSource, OnCompleteGameStartPanel);
 
 		// 終了パネル設定
-		var canvasUi = GameObject.Find("CanvasUI");
 		panelGameEndManager = canvasUi.transform.Find("PanelGameEnd").gameObject.GetComponent<PanelGameEndManager> ();
 
 		// プレイヤーの取得
