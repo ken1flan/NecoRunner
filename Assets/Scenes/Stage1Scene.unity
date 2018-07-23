@@ -358,8 +358,7 @@ GameObject:
   - component: {fileID: 1381325283}
   - component: {fileID: 1381325285}
   - component: {fileID: 1381325284}
-  - component: {fileID: 1381325286}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: GroundTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3189,19 +3188,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!19719996 &1381325286
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1381325282}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
 --- !u!1 &1541296882
 GameObject:
   m_ObjectHideFlags: 0
@@ -3320,10 +3306,9 @@ GameObject:
   - component: {fileID: 1740138086}
   - component: {fileID: 1740138088}
   - component: {fileID: 1740138087}
-  - component: {fileID: 1740138089}
   m_Layer: 0
   m_Name: TrapTilemap
-  m_TagString: Trap
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3731,19 +3716,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!19719996 &1740138089
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1740138085}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
 --- !u!1001 &1848323193
 Prefab:
   m_ObjectHideFlags: 0
@@ -3796,8 +3768,7 @@ GameObject:
   - component: {fileID: 1865985442}
   - component: {fileID: 1865985444}
   - component: {fileID: 1865985443}
-  - component: {fileID: 1865985445}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: KeepoutTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4787,16 +4758,3 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!19719996 &1865985445
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1865985441}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
