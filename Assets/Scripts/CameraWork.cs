@@ -57,7 +57,7 @@ public class CameraWork : MonoBehaviour
 
     private void setRange()
     {
-        startXOffset = mapManager.mapLeftBottomPosition.x + 8.0f;
+        startXOffset = mapManager.mapLeftBottomPosition.x + 10.0f;
         endXOffset = mapManager.mapRightTopPosition.x - 8.0f;
         startYOffset = mapManager.mapLeftBottomPosition.y + 10.0f;
         endYOffset = mapManager.mapRightTopPosition.y - 10.0f;
