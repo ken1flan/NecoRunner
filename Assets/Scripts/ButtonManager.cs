@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonManager : MonoBehaviour {
 	private PlayerManager playerManager;
+	private bool usingKeys = false;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,12 @@ public class ButtonManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float x = Input.GetAxisRaw ("Horizontal");
+
+		if (Input.GetKeyDown ("return")) {
+			usingKeys = true;
+		}
+
+		if (!usingKeys) return;
 
 		if (x == 0) {
 			playerManager.StopMoving ();

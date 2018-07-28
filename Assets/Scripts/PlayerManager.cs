@@ -63,8 +63,6 @@ public class PlayerManager : MonoBehaviour {
 		}
 		if (goStepBack != MoveDirection.Stop) {
 			StepBack(goStepBack);
-
-			animator.SetInteger("status", (int)status);
 			return;
 		}
 
@@ -197,6 +195,7 @@ public class PlayerManager : MonoBehaviour {
 			transform.position = new Vector2(currentPosition.x / 2, currentPosition.y);
 		}
 		status = Statuses.StepingBack;
+		animator.SetInteger("status", (int)status);
 
 		goStepBack = MoveDirection.Stop;
 	}
