@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
-	public LayerMask blockLayer;	// ブロックレイヤ
-	public GameObject gameManager;	// ゲームマネージャ
+	private LayerMask blockLayer;	// ブロックレイヤ
+	private GameObject gameManager;	// ゲームマネージャ
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 	private AudioSource audioSource;		// オーディオソース
 	private Animator animator;
@@ -37,9 +37,12 @@ public class PlayerManager : MonoBehaviour {
 		status = Statuses.WaitingStart;
 		rbody = GetComponent<Rigidbody2D> ();
 
+		gameManager = GameObject.Find("GameManager");
 		// オーディオソースの設定
 		audioSource = gameManager.GetComponent<AudioSource> ();
 		animator = GetComponent<Animator> ();
+
+		blockLayer = LayerMask.GetMask("Block");
 	}
 
 	// Update is called once per frame
