@@ -298,6 +298,11 @@ Prefab:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1065655053}
+    - target: {fileID: 114859411539899260, guid: 4aa5a981685a743d5832c4388f6b6e38,
+        type: 2}
+      propertyPath: blockLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4aa5a981685a743d5832c4388f6b6e38, type: 2}
   m_IsPrefabParent: 0

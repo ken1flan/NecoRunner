@@ -122,6 +122,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114859411539899260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,12 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd40394184c654012bf3cb7610c807b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockLayer:
-    serializedVersion: 2
-    m_Bits: 256
   gameManager: {fileID: 0}
-  status: 1
   jumpSe: {fileID: 8300000, guid: 37ddad4b152384b349b2f8e872fd839d, type: 3}
+  status: 1
 --- !u!212 &212444459102275106
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -152,6 +150,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
