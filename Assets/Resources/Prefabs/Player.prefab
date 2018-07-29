@@ -134,7 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd40394184c654012bf3cb7610c807b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
   jumpSe: {fileID: 8300000, guid: 37ddad4b152384b349b2f8e872fd839d, type: 3}
   status: 1
 --- !u!212 &212444459102275106

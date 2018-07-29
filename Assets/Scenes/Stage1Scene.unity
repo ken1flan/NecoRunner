@@ -293,24 +293,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114859411539899260, guid: 4aa5a981685a743d5832c4388f6b6e38,
-        type: 2}
-      propertyPath: gameManager
-      value: 
-      objectReference: {fileID: 1065655053}
-    - target: {fileID: 114859411539899260, guid: 4aa5a981685a743d5832c4388f6b6e38,
-        type: 2}
-      propertyPath: blockLayer.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4aa5a981685a743d5832c4388f6b6e38, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1065655053 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1663718404718080, guid: 0020f8c02b4f84f3eb25d8024d358608,
-    type: 2}
-  m_PrefabInternal: {fileID: 1848323193}
 --- !u!1001 &1162374227
 Prefab:
   m_ObjectHideFlags: 0
