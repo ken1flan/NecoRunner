@@ -78,6 +78,11 @@ public class GameManager : MonoBehaviour {
 				textTime.text = newTimeString;
 			}
 		}
+
+		// プレイヤーの状態監視
+		if (player && player.status == PlayerManager.Statuses.Dead) {
+			GameOver ();
+		}
 	}
 
 	// ゲーム開始パネルの表示完了後処理
@@ -91,6 +96,9 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームオーバー処理
 	public void GameOver () {
+		Destroy ( player.gameObject );
+		player = null;
+
 		status = Statuses.GameOver;
 		// BGMを止める
 		audioSource.Stop ();
