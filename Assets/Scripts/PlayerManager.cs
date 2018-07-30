@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 	private LayerMask blockLayer;	// ブロックレイヤ
-	private GameObject gameManager;	// ゲームマネージャ
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 	private AudioSource audioSource;		// オーディオソース
 	private Animator animator;
@@ -39,7 +38,7 @@ public class PlayerManager : MonoBehaviour {
 		status = Statuses.WaitingStart;
 		rbody = GetComponent<Rigidbody2D> ();
 
-		gameManager = GameObject.Find("GameManager");
+		var gameManager = GameObject.Find("GameManager");
 		// オーディオソースの設定
 		audioSource = gameManager.GetComponent<AudioSource> ();
 		animator = GetComponent<Animator> ();
