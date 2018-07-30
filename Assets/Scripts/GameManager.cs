@@ -78,6 +78,21 @@ public class GameManager : MonoBehaviour {
 				textTime.text = newTimeString;
 			}
 		}
+
+		// プレイヤーの状態監視
+		if (player) {
+			switch (player.status) {
+				case PlayerManager.Statuses.Dead:
+					GameOver ();
+					break;
+				case PlayerManager.Statuses.Clear:
+					GameClear ();
+					break;
+				default:
+					// なにもしない
+					break;
+			}
+		}
 	}
 
 	// ゲーム開始パネルの表示完了後処理
@@ -91,6 +106,9 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームオーバー処理
 	public void GameOver () {
+		Destroy ( player.gameObject );
+		player = null;
+
 		status = Statuses.GameOver;
 		// BGMを止める
 		audioSource.Stop ();
@@ -101,6 +119,9 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームクリア処理
 	public void GameClear () {
+		Destroy ( player.gameObject );
+		player = null;
+
 		status = Statuses.GameClear;
 		audioSource.Stop ();
 		panelGameEndManager.GameClear ();

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 	private LayerMask blockLayer;	// ブロックレイヤ
-	private GameObject gameManager;	// ゲームマネージャ
 	private Rigidbody2D rbody;		// プレイヤー制御用Ridgebody2D
 	private AudioSource audioSource;		// オーディオソース
 	private Animator animator;
@@ -16,7 +15,9 @@ public class PlayerManager : MonoBehaviour {
 		Standing = 1,
 		Running = 2,
 		Jumping = 3,
-		StepingBack = 4
+		StepingBack = 4,
+		Dead = 5,
+		Clear = 6,
 	}
 	public Statuses status = Statuses.WaitingStart;
 
@@ -37,7 +38,7 @@ public class PlayerManager : MonoBehaviour {
 		status = Statuses.WaitingStart;
 		rbody = GetComponent<Rigidbody2D> ();
 
-		gameManager = GameObject.Find("GameManager");
+		var gameManager = GameObject.Find("GameManager");
 		// オーディオソースの設定
 		audioSource = gameManager.GetComponent<AudioSource> ();
 		animator = GetComponent<Animator> ();
@@ -111,12 +112,10 @@ public class PlayerManager : MonoBehaviour {
 				Destroy(collidedGameObject);
 				break;
 			case "Trap":
-				gameManager.GetComponent<GameManager> ().GameOver ();
-				DestroyPlayer ();
+				status = Statuses.Dead;
 				break;
 			case "Goal":
-				gameManager.GetComponent<GameManager> ().GameClear ();
-				DestroyPlayer ();
+				status = Statuses.Clear;
 				break;
 		}
 	}
