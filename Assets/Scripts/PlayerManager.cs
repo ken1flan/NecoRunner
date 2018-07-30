@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour {
 		Jumping = 3,
 		StepingBack = 4,
 		Dead = 5,
+		Clear = 6,
 	}
 	public Statuses status = Statuses.WaitingStart;
 
@@ -112,13 +113,10 @@ public class PlayerManager : MonoBehaviour {
 				Destroy(collidedGameObject);
 				break;
 			case "Trap":
-				// gameManager.GetComponent<GameManager> ().GameOver ();
-				// DestroyPlayer ();
 				status = Statuses.Dead;
 				break;
 			case "Goal":
-				gameManager.GetComponent<GameManager> ().GameClear ();
-				DestroyPlayer ();
+				status = Statuses.Clear;
 				break;
 		}
 	}

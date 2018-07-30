@@ -80,8 +80,18 @@ public class GameManager : MonoBehaviour {
 		}
 
 		// プレイヤーの状態監視
-		if (player && player.status == PlayerManager.Statuses.Dead) {
-			GameOver ();
+		if (player) {
+			switch (player.status) {
+				case PlayerManager.Statuses.Dead:
+					GameOver ();
+					break;
+				case PlayerManager.Statuses.Clear:
+					GameClear ();
+					break;
+				default:
+					// なにもしない
+					break;
+			}
 		}
 	}
 
@@ -109,6 +119,9 @@ public class GameManager : MonoBehaviour {
 	// PanelGameEndManagerに移動
 	// ゲームクリア処理
 	public void GameClear () {
+		Destroy ( player.gameObject );
+		player = null;
+
 		status = Statuses.GameClear;
 		audioSource.Stop ();
 		panelGameEndManager.GameClear ();
