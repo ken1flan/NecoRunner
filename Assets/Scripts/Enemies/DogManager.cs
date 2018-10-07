@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DogManager : MonoBehaviour {
+	private const float TERRITORY_HIGHT = 1.0f;
 	private const float TERRITORY_WIDTH = 2.0f;
 	private const float VEROCITY = 1;
 	public enum MoveDirection { Right = 1, Left = -1 }
@@ -77,6 +78,10 @@ public class DogManager : MonoBehaviour {
 	private bool needsBark () {
 		var currentPosX = transform.position.x;
 		var playerPosX = player.transform.position.x;
+
+		if (TERRITORY_HIGHT < Math.Abs(player.transform.position.y - transform.position.y)) {
+			return false;
+		}
 
 		if (moveDirection == MoveDirection.Right && playerPosX < currentPosX + TERRITORY_WIDTH && playerPosX >= currentPosX) {
 			return true;
